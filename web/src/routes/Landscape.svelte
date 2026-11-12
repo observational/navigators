@@ -40,7 +40,7 @@
     const bo = m.blank_page_openings, [near] = kinOf(k);
     let s = `<b>${esc(m.label)}</b>. Picks most like ${esc(shortName(near.key))}. `;
     if (bo && bo.top3 && bo.top3.length) s += `On a blank page it opens ${esc(bo.top3[0].page)}. `;
-    if (m.quote && m.quote.kind !== 'stop') s += `<q>${esc(m.quote.text)}</q>`;
+    if (m.voice) s += `<q>${esc(m.voice.text)}</q>`;
     return s;
   }
 

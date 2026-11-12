@@ -150,7 +150,7 @@
           "id": "tools",
           "headline": "Change how they answer, and every run stops.",
           "line": "The same models, acting through tools instead of a written reply, ended all 60 runs. Some began asking an absent user what they wanted.",
-          "quote": "Tell me what you'd like: a summary, specific facts…",
+          "quote": "Rather than open links at random, I'm stopping here. Tell me what you want, such as a summary, specific facts, or follow-up pages to check.",
           "viz": {
             "type": "before_after",
             "unit": "runs the model ends by itself",

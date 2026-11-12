@@ -26,7 +26,7 @@
     <p class="lede small">The best guide to a model&rsquo;s click is what the other models clicked. What people click comes second.</p>
     <div class="fig" id="hyp">{#if ready}<Hyp {vw} />{/if}</div>
     <h2>The eight models</h2>
-    <p class="lede small">One portrait each. The kind of curve marks the model; how often it stops, turns back and agrees with the others bends it.</p>
+    <p class="lede small">They sound different and pick alike. One line from each, in its own words, beside the models it most and least resembles.</p>
     {#if ready}<Plates />{:else}<div id="plates"></div>{/if}
     <p class="src" id="ksrc"></p>
   </div>
