@@ -7,24 +7,24 @@ agent runs next to where human readers click from the same pages.
 
 ## What is here
 
-- `site/`: the website. Plain HTML, CSS and JavaScript modules with three.js; static JSON data; no build step.
-  Details in `site/README.md`.
-- `.github/workflows/pages.yml`: publishes `site/` to GitHub Pages on every push to `main`.
+- `web/`: the website, a Vite + Svelte 5 single-page app with three.js for the map; static JSON data in `web/public/data/`.
+  Details in `web/README.md`.
+- `.github/workflows/pages.yml`: builds `web/` and publishes it to GitHub Pages on every push to `main`.
 
 The experiment harness and the analysis will follow in this repository.
 
 ## Run locally
 
-    cd site && python3 -m http.server 8000
+    cd web && npm ci && npm run dev
 
-then open http://127.0.0.1:8000/ (WebGL 2 needed for the map).
+(Node 20 or later; WebGL 2 needed for the map.) `npm run build` writes the static site to `web/dist/`.
 
 ## Licences
 
 - Code: MIT (`LICENSE`).
 - Site text, figures and our data files: CC BY 4.0 (`LICENSE-CONTENT`).
 - Wikipedia titles, links and quoted article text: CC BY-SA 4.0, Wikipedia contributors. Wikimedia clickstream: CC0.
-- Bundled third-party code and fonts keep their own licences: `site/vendor/THIRD_PARTY.md`, `site/CREDITS.md`.
+- Bundled third-party code and fonts keep their own licences: `web/public/THIRD_PARTY.md`, `web/public/CREDITS.md`.
 
 ## Cite
 
