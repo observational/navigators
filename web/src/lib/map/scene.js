@@ -9,7 +9,7 @@ import { S, FAMS, FCOL, fmt, esc } from '../data.js';
 import { GN, AMP, LIFT, field, wellsOf } from './heights.js';
 import { SHORT } from './shapes.js';
 
-export function createMap({ canvas, leaders, labels: labDiv, names: namesDiv, tip }) {
+export function createMap({ canvas, leaders, labels: labDiv, names: namesDiv, regions: regDiv, tip }) {
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobile = () => innerWidth < 760;
 const nodes = S.nodes, N = nodes.length, CN = S.stats.canon;
@@ -56,6 +56,10 @@ float fetchH(vec2 uv){
   vec2 v=mix(mix(a,b,f.x),mix(c,d,f.x),f.y); return mix(v.x,v.y,uMix);
 }
 float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }`;
+// slow value noise and four octaves of it; needs hash() declared before it
+const GLSL_N = `
+float vnoise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f); return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y); }
+float fbm(vec2 p){ float a=.5, t=0.; for(int k=0;k<4;k++){ t+=a*vnoise(p); p=p*2.03+17.3; a*=.5; } return t/.9375; }`;
 
 /* terrain: the engraved relief of the round-1 prototype, a touch quieter so the roads read first */
 const tg = new THREE.BufferGeometry();
@@ -67,7 +71,7 @@ const terrain = new THREE.Mesh(tg, new THREE.ShaderMaterial({
   uniforms: U,
   vertexShader: GLSL_H + `varying float vH; varying vec3 vP; varying vec2 vUv;
   void main(){ float h=fetchH(uv); vH=h; vUv=uv; vec3 p=position; p.z=h*uAmp; vP=p; gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.); }`,
-  fragmentShader: GLSL_H + `uniform float uInk; varying float vH; varying vec3 vP; varying vec2 vUv;
+  fragmentShader: GLSL_H + GLSL_N + `uniform float uInk; varying float vH; varying vec3 vP; varying vec2 vUv;
   void main(){
     // smooth normal from the height field itself (no per-triangle facets)
     float du=1./float(GN-1); float cell=1000./float(GN-1);
@@ -82,7 +86,12 @@ const terrain = new THREE.Mesh(tg, new THREE.ShaderMaterial({
     float d1=abs(fract(iso-.5)-.5)/w; float l1=1.-smoothstep(0.,1.15,d1);
     float i5=iso/5.; float w5=fwidth(i5); float d5=abs(fract(i5-.5)-.5)/w5; float l5=1.-smoothstep(0.,1.9,d5);
     float far=1.-smoothstep(.5,1.25,w);
-    float gr=hash(floor(gl_FragCoord.xy)); float broken=smoothstep(.04,.3,gr);
+    // the rim: a long fall-off whose edge is shaped by slow noise; contours break into dust on the way out
+    vec2 c=vUv-.5; float rr=length(c)*2.;
+    float nz=vnoise(vP.xy/170.+5.)*.62+vnoise(vP.xy/58.-2.)*.38;
+    vec2 e=min(vUv,1.-vUv); float edgeF=smoothstep(0.,.14,min(e.x,e.y));
+    float vis=(1.-smoothstep(.64,1.08,rr+(nz-.5)*.24))*edgeF;
+    float gr=hash(floor(gl_FragCoord.xy)); float br=(1.-vis)*.8; float broken=smoothstep(.04+br,.3+br,gr);
     vec3 inkA=vec3(.78,.72,.58), inkH=vec3(.50,.70,.84); vec3 ink=mix(inkA,inkH,uInk);
     float fade=1.-smoothstep(.93,.985,vH);
     float line=max(l1*.22*far,l5*.62*mix(.55,1.,far))*broken*fade;
@@ -91,21 +100,48 @@ const terrain = new THREE.Mesh(tg, new THREE.ShaderMaterial({
     float slope=1.-n.z; float hat=step(.72,fract((vP.x*.62+vP.y)*.34)); float hs=hat*smoothstep(.10,.38,slope)*.15*(1.-rim)*far;
     vec3 col=ground+ink*hs*.5;
     col=mix(col,ink,clamp(line,0.,1.));
-    col=mix(col,ink,grid*mix(.05,.16,rim));
+    col=mix(col,ink,grid*mix(.05,.16,rim)*vis);
     col*=.94+.12*hash(floor(gl_FragCoord.xy*.5)+7.);
-    // borders dissolve into the background: an organic radial falloff plus a guard at the square's edges
-    vec2 c=vUv-.5; float rr=length(c*vec2(1.,1.04))*2.;
-    float wob=.035*sin(atan(c.y,c.x)*5.+1.3)+.025*sin(atan(c.y,c.x)*9.-.7);
-    vec2 e=min(vUv,1.-vUv); float edgeF=smoothstep(0.,.10,min(e.x,e.y));
-    float vis=(1.-smoothstep(.70+wob,1.02+wob,rr))*edgeF;
-    vis=clamp(vis+(hash(floor(gl_FragCoord.xy*.5)+3.)-.5)*.08*(1.-vis)*vis*4.,0.,1.); // grain in the fade, none inside or outside it
-    if(vis<.3) discard;   // what has faded away no longer hides what lies behind it
-    col=mix(vec3(.078,.066,.052),col,clamp(vis,0.,1.));
-    gl_FragColor=vec4(col,1.);
+    col=max(col,vec3(.078,.066,.052)*(1.-vis));   // fading slopes never read darker than the night
+    if(vis<.004) discard;   // the mist below shows through what is left
+    gl_FragColor=vec4(col,vis);
+  }`,
+  transparent: true,
+  extensions: { derivatives: true },
+}));
+terrain.renderOrder = -1; scene.add(terrain);
+
+/* mist: the map does not end, it thins out. A wide flat haze under and around the terrain's rim, warm near the map and
+   cooler further out, with sparse dust that keeps its size on screen */
+const mist = new THREE.Mesh(new THREE.PlaneGeometry(2400, 2400), new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false,
+  vertexShader: `varying vec2 vW; void main(){ vW=position.xy; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `varying vec2 vW; float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }` + GLSL_N + `
+  void main(){
+    float rr=length(vW)/500.;
+    float n=fbm(vW/230.+3.), n2=fbm(vW/75.-9.);
+    float r1=rr+(n-.5)*.45;
+    float env=smoothstep(.55,.98,r1)*(1.-smoothstep(1.0,1.95,r1));
+    float haze=env*(.3+.7*n)*(.65+.35*n2);
+    vec3 tint=mix(vec3(.36,.29,.20),vec3(.22,.29,.38),smoothstep(.95,1.7,rr+(n2-.5)*.5));
+    vec2 g=vW/6.; float px=max(fwidth(g.x),fwidth(g.y));
+    vec2 id=floor(g), f=fract(g)-.5; float h=hash(id+.5); vec2 o=(vec2(hash(id+3.1),hash(id+7.7))-.5)*.4;
+    float dens=smoothstep(.6,.95,r1)*(1.-smoothstep(1.1,2.1,r1));
+    float star=step(1.-.09*dens*(.35+n),h)*(1.-smoothstep(0.,clamp(1.4*px,.03,.28),length(f-o)))*(1.-smoothstep(.3,.7,px));
+    float a=max(haze*.3,star*(.25+.6*hash(id+11.)));
+    if(a<.003) discard;
+    gl_FragColor=vec4(mix(tint,vec3(.92,.86,.74),star),a);
   }`,
   extensions: { derivatives: true },
 }));
-scene.add(terrain);
+mist.renderOrder = -2; mist.frustumCulled = false; scene.add(mist);
+// the haze sits at the height of the terrain's rim
+function placeMist() { let z = 0; for (let k = 0; k < 48; k++) { const a = k / 48 * 6.2832; z += wz(500 + Math.cos(a) * 455, 500 + Math.sin(a) * 455); } mist.position.z = z / 48 - 2; }
+// lines and run markers thin out towards the rim, as the page marks do
+const EDGE = '1.-smoothstep(.72,1.02,length(eP.xy)/500.)';
+const fadeFat = m => { m.onBeforeCompile = sh => {
+  sh.vertexShader = sh.vertexShader.replace('void main() {', `varying float vEdge;\nvoid main() {\n vec3 eP=(position.y<0.5)?instanceStart:instanceEnd; vEdge=${EDGE};`);
+  sh.fragmentShader = sh.fragmentShader.replace('void main() {', 'varying float vEdge;\nvoid main() {').replace('gl_FragColor = vec4( diffuseColor.rgb, alpha );', 'gl_FragColor = vec4( diffuseColor.rgb, alpha * vEdge );'); }; return m; };
 
 /* page marks: shape = family (non-colour cue); agents bone/warm, reader-only pages ice */
 const SHAPE = `
@@ -158,7 +194,7 @@ const pmat = new THREE.ShaderMaterial({
 const points = new THREE.Points(pg, pmat); points.frustumCulled = false; points.renderOrder = 2; scene.add(points);
 /* ---------- roads: agents' traffic (warm, solid) ---------- */
 const ROAD = [{ min: 25, w: 3.4, c: 0xffb066, o: 1 }, { min: 8, w: 2.1, c: 0xf0924a, o: .95 }, { min: 3, w: 1.15, c: 0xc9783f, o: .75 }];
-const roadMats = ROAD.map(r => new LineMaterial({ color: r.c, linewidth: r.w, transparent: true, opacity: r.o, depthWrite: false }));
+const roadMats = ROAD.map(r => fadeFat(new LineMaterial({ color: r.c, linewidth: r.w, transparent: true, opacity: r.o, depthWrite: false })));
 const roadObjs = ROAD.map((r, i) => { const o = new LineSegments2(new LineSegmentsGeometry(), roadMats[i]); o.frustumCulled = false; o.renderOrder = 3 + i * 0; scene.add(o); return o; });
 let roads = [], lifted = 0, liftT = 0, liftFrom = 0, liftTo = 0;
 const edgeKey = (a, b) => a < b ? a + ':' + b : b + ':' + a;
@@ -204,11 +240,14 @@ const liftNow = () => lifted;
 const SUB = 6, HOPS = 15;
 let startId = 1029, runPaths = [], runFam = [], balls, trail, trailCol, arcs, ring, T = 0, playing = !RM;
 const bmat = new THREE.ShaderMaterial({ uniforms: U, transparent: true, depthWrite: false,
-  vertexShader: `attribute float aFam; uniform float uScale; varying float vF; void main(){ vF=aFam; vec4 mv=modelViewMatrix*vec4(position,1.); gl_Position=projectionMatrix*mv; gl_PointSize=clamp(7.*uScale/-mv.z,5.,12.); }`,
-  fragmentShader: `uniform int uMode; uniform vec3 uCol[7]; varying float vF;` + SHAPE + `
-  void main(){ vec2 q=(gl_PointCoord-.5)*2.; q.y=-q.y; float d=shape(q,uMode==1?vF:0.); if(d>1.) discard; vec3 col=uMode==1?uCol[int(vF)]:vec3(1.,.78,.52); col=d>.72?vec3(.08,.065,.05):col; gl_FragColor=vec4(col,1.); }` });
+  vertexShader: `attribute float aFam; uniform float uScale; varying float vF; varying float vEdge; void main(){ vF=aFam; vec3 eP=position; vEdge=${EDGE}; vec4 mv=modelViewMatrix*vec4(position,1.); gl_Position=projectionMatrix*mv; gl_PointSize=clamp(7.*uScale/-mv.z,5.,12.); }`,
+  fragmentShader: `uniform int uMode; uniform vec3 uCol[7]; varying float vF; varying float vEdge;` + SHAPE + `
+  void main(){ vec2 q=(gl_PointCoord-.5)*2.; q.y=-q.y; float d=shape(q,uMode==1?vF:0.); if(d>1.) discard; vec3 col=uMode==1?uCol[int(vF)]:vec3(1.,.78,.52); col=d>.72?vec3(.08,.065,.05):col; gl_FragColor=vec4(col,vEdge); }` });
 const trailMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: .32, blending: THREE.AdditiveBlending, depthWrite: false });
-const arcMat = new LineMaterial({ color: 0x7fb2d6, linewidth: 1.6, dashed: true, dashSize: 7, gapSize: 5, transparent: true, opacity: .95, depthWrite: false });
+trailMat.onBeforeCompile = sh => {
+  sh.vertexShader = sh.vertexShader.replace('void main() {', `varying float vEdge;\nvoid main() {\n vec3 eP=position; vEdge=${EDGE};`);
+  sh.fragmentShader = sh.fragmentShader.replace('void main() {', 'varying float vEdge;\nvoid main() {').replace('#include <opaque_fragment>', '#include <opaque_fragment>\n gl_FragColor.a*=vEdge;'); };
+const arcMat = fadeFat(new LineMaterial({ color: 0x7fb2d6, linewidth: 1.6, dashed: true, dashSize: 7, gapSize: 5, transparent: true, opacity: .95, depthWrite: false }));
 const ringMat = new THREE.LineBasicMaterial({ color: 0xe5532d });
 function loadStart(id) {
   startId = id; const si = S.startIdx[id];
@@ -299,6 +338,36 @@ function buildCallouts() {
   const s = nodes[S.byId.get(startId)]; add('start page', s.t, s.x, s.y, 2);
 }
 const v3 = new THREE.Vector3();
+/* regions: seven broad topic areas, named on request. Each name sits at the centre of its topics' pages. */
+const REGIONS = {
+  'Maths and machines': ['Mathematics', 'Engineering', 'Technology'],
+  'Nature and science': ['Science', 'Life', 'Universe', 'Health', 'Natural environment', 'Food and drink'],
+  'Arts and media': ['Entertainment', 'Mass media', 'The arts'],
+  'Sport': ['Sports'],
+  'People and belief': ['Humans', 'Culture', 'Society', 'Religion'],
+  'Power and places': ['Government', 'Politics', 'Military', 'Law', 'History', 'Geography'],
+  'Money and ideas': ['Business', 'Economy', 'Philosophy', 'Language', 'Education', 'Time'],
+};
+const regs = Object.entries(REGIONS).map(([name, ts]) => {
+  let x = 0, y = 0, n = 0; for (const t of S.topicsF) if (ts.includes(t.name)) { x += t.cx * t.n; y += t.cy * t.n; n += t.n; }
+  const d = document.createElement('div'); d.textContent = name; regDiv.appendChild(d); return { d, x: x / n, y: y / n };
+});
+let regionsOn = false;
+function placeRegions(dist, taken) {
+  const W = innerWidth, H = innerHeight, left0 = mobile() ? 8 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--side')) + 4;
+  const fs = Math.min(15, Math.max(11, W * .0105));
+  // callouts already on screen (the start page) are obstacles too
+  const placed = taken.map(q => ({ sx: (q[0] + q[2]) / 2, sy: (q[1] + q[3]) / 2, w: q[2] - q[0], h: q[3] - q[1] }));
+  const items = regs.map(r => { const [x, y] = P(r.x, r.y); v3.set(x, y, wz(r.x, r.y) + 6).project(cam);
+    return { r, z: v3.z, sx: (v3.x * .5 + .5) * W, sy: (-v3.y * .5 + .5) * H, w: r.d.textContent.length * fs * .92 + 16 }; }).sort((a, b) => a.sy - b.sy);
+  for (const it of items) {
+    let sy = it.sy; const hit = () => placed.some(q => Math.abs(q.sx - it.sx) < (q.w + it.w) / 2 && Math.abs(q.sy - sy) < ((q.h || fs + 9) + fs + 9) / 2);
+    for (let k = 0; k < 6 && hit(); k++) sy += fs + 9;   // step down past a name that is already there
+    const show = regionsOn && it.z < 1 && dist > 380 && !hit() && it.sx > left0 + it.w / 2 && it.sx < W - it.w / 2 && sy > 80 && sy < H - (mobile() ? H * .42 + 60 : 120);
+    if (show) placed.push({ sx: it.sx, sy, w: it.w });
+    it.r.d.style.opacity = show ? .72 : 0; it.r.d.style.transform = `translate(${it.sx}px,${sy}px) translate(-50%,-50%)`;
+  }
+}
 // line of sight over the height field: is the point hidden behind a ridge?
 function hidden(X, Y, Z) {
   const c = cam.position; if (liftNow() > .5) return false;
@@ -310,7 +379,7 @@ function placeCallouts(dist) {
   const W = innerWidth, H = innerHeight, placed = [], left0 = mobile() ? 8 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--side')) + 4;
   const show0 = dist > 600; // closer in, page names take over from the well callouts
   labs.forEach((l, i) => {
-    const on = l.g === 2 || l.g === 3 || (show0 && !(mobile() && i > 3));
+    const on = l.g === 2 || l.g === 3 || (show0 && !regionsOn && !(mobile() && i > 3));
     v3.set(...P(l.wx, l.wy), wz(l.wx, l.wy) + (LIFT - wz(l.wx, l.wy)) * (l.g === 2 ? liftNow() : 0)).project(cam);
     const sx = (v3.x * .5 + .5) * W, sy = (-v3.y * .5 + .5) * H;
     const [hx, hy] = P(l.wx, l.wy);
@@ -449,7 +518,7 @@ function frame(now) {
     cam.position.lerpVectors(tween.p0, tween.p1, e); ctl.target.lerpVectors(tween.t0v, tween.t1, e); if (t >= 1) tween = null; busy = true; }
   if (morphing) { const t = Math.min(1, (now - mixT0) / 1100); mix = 1 - Math.pow(1 - t, 3); U.uMix.value = mix; U.uInk.value += (U.uInkTo.value - U.uInk.value) * .12;
     if (t >= 1) { morphing = false; U.uInk.value = U.uInkTo.value; }
-    if (frames % 3 === 0 || !morphing) { placeRoads(); placeStatic(); } busy = true; }
+    if (frames % 3 === 0 || !morphing) { placeRoads(); placeStatic(); placeMist(); } busy = true; }
   if (liftTo !== lifted) { const t = Math.min(1, (now - liftT) / 800); lifted = liftFrom + (liftTo - liftFrom) * (1 - Math.pow(1 - t, 3)); U2.uLift.value = lifted; if (t >= 1) lifted = liftTo; placeRoads(); busy = true; }
   const idle = now - lastAct > 45000;
   if (playing && !idle) { updateRuns(dt); busy = true; } else if (frames === 0) updateRuns(0);
@@ -458,7 +527,7 @@ function frame(now) {
   need = false; frames++;
   renderer.render(scene, cam);
   const dist = cam.position.distanceTo(ctl.target);
-  if (frames % 2 === 0 || !busy) { const taken = placeCallouts(dist); placeNames(dist, taken); }
+  if (frames % 2 === 0 || !busy) { const taken = placeCallouts(dist); placeNames(dist, taken); placeRegions(dist, taken); }
   if (frames % 4 === 0) pick();
   // adaptive quality: if frames are slow while moving, render fewer pixels
   if (busy && dt > .034) { if (++slow > 40 && PR > 1) { PR = Math.max(1, PR - .25); renderer.setPixelRatio(PR); resize(); slow = 0; } } else slow = Math.max(0, slow - 1);
@@ -471,7 +540,7 @@ if (glOK) {
   const n0 = nodes[S.byId.get(startId)], [x0, y0] = P(n0.x, n0.y), t0 = new THREE.Vector3(x0, y0, wz(n0.x, n0.y));
   ctl.target.copy(t0); cam.position.copy(camAt(t0, mobile() ? 760 : 560, .92, .35));
 }
-setGround('all');
+setGround('all'); placeMist();
 raf = requestAnimationFrame(frame);
 
 return {
@@ -485,10 +554,11 @@ return {
   setPlaying(p) { playing = p; wake(); },
   overview, dolly, flyTo,
   showCanon,
+  setRegions(on) { regionsOn = on; wake(); },
   isCanon: () => canonOn,
   setActive(a) { active = a; if (a) wake(); },
   dispose() {
-    cancelAnimationFrame(raf); cleanups.forEach(f => f());
+    cancelAnimationFrame(raf); cleanups.forEach(f => f()); regDiv.innerHTML = '';
     ctl.dispose(); if (glOK) renderer.dispose();
   },
 };

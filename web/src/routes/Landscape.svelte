@@ -10,10 +10,11 @@
 
   let ready = $state(false), noGl = $state(false);
   let cur = $state('all'), startId = $state(1029), ink = $state(0), lift = $state(0), plan = $state(false);
+  let regOn = $state(false);
   let playing = $state(true), canonOn = $state(false), voicesOpen = $state(false), vI = $state(0);
   let open = $state({});
   let map = null;
-  let canvas, leaders, labels, names, tip, startEl = $state();
+  let canvas, leaders, labels, names, regions, tip, startEl = $state();
 
   const GKEYS = ['all', ...MODELS, 'readers'];
   const inN = v => `${Math.max(1, Math.round(v * 10))} in 10`;
@@ -54,6 +55,7 @@
   function setInk(v) { ink = v; map?.setInk(v); }
   function setLift(v) { lift = v; map?.setLift(v); }
   function setView(p) { plan = p; map?.setView(p); }
+  function setReg(on) { regOn = on; map?.setRegions(on); }
   function togglePlay() { playing = !playing; map?.setPlaying(playing); }
   function toggleCanon(on) { map?.showCanon(on); canonOn = map ? map.isCanon() : false; }
   const toggleOpen = i => open[i] = !open[i];
@@ -70,13 +72,13 @@
       await Promise.resolve();
       // direct listener: other tabs may dispatch a non-bubbling `change` on #start (the old contract)
       startEl.addEventListener('change', e => pickStart(+e.currentTarget.value));
-      map = createMap({ canvas, leaders, labels, names, tip });
+      map = createMap({ canvas, leaders, labels, names, regions, tip });
       playing = map.playing;
       noGl = !map.glOK;
       map.setActive(active);
       bridge = { showStart: id => { startId = id; vI = 0; map.setStart(id); const s = document.getElementById('start'); if (s) s.value = id; }, showCanon: on => toggleCanon(on ?? !map.isCanon()) };
       register(bridge);
-      window.__cam = { overview: () => map.overview(), dolly: f => map.dolly(f), flyTo: (id, d, p) => map.flyTo(id, d, p), setGround, lift: v => setLift(+v), plan: () => setView(true) };
+      window.__cam = { overview: () => map.overview(), dolly: f => map.dolly(f), flyTo: (id, d, p) => map.flyTo(id, d, p), setGround, lift: v => setLift(+v), plan: () => setView(true), regions: on => setReg(on) };
       onready();
     })();
     return () => { alive = false; if (bridge) unregister(bridge); map?.dispose(); map = null; };
@@ -85,6 +87,7 @@
 
 <canvas id="gl" bind:this={canvas} style:visibility={active ? 'visible' : 'hidden'} style:display={noGl ? 'none' : null}></canvas>
 <svg id="leaders" aria-hidden="true" bind:this={leaders} style:visibility={active ? 'visible' : 'hidden'}></svg>
+<div id="regions" aria-hidden="true" bind:this={regions} style:visibility={active ? 'visible' : 'hidden'}></div>
 <div id="labels" aria-hidden="true" bind:this={labels} style:visibility={active ? 'visible' : 'hidden'}></div>
 <div id="names" aria-hidden="true" bind:this={names} style:visibility={active ? 'visible' : 'hidden'}></div>
 
@@ -105,6 +108,8 @@
       <div class="ctl"><span class="k">roads</span><a class:on={lift === 0} onclick={() => setLift(0)}>on the ground</a><a class:on={lift === 1} onclick={() => setLift(1)}>lifted</a></div>
       <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
       <div class="ctl"><span class="k">ink</span><a class:on={ink === 0} onclick={() => setInk(0)}>who</a><a class:on={ink === 1} onclick={() => setInk(1)}>which model</a></div>
+      <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+      <div class="ctl"><span class="k">regions</span><a class:on={!regOn} onclick={() => setReg(false)}>hidden</a><a class:on={regOn} onclick={() => setReg(true)}>named</a></div>
       <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
       <div class="ctl"><span class="k">runs</span><a id="play" class="on" onclick={togglePlay}>{playing ? 'pause' : 'play'}</a><a id="overview" onclick={() => map?.overview()}>see the whole map</a></div>
       <div id="key">{@html keyHtml(ink)}</div>
