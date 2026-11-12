@@ -552,6 +552,26 @@ $$('[data-view]').forEach(a => a.onclick = () => {
 });
 function dolly(f) { const off = cam.position.clone().sub(ctl.target); const d = Math.min(ctl.maxDistance, Math.max(ctl.minDistance, off.length() * f)); go(ctl.target.clone(), ctl.target.clone().add(off.setLength(d)), 420); }
 $('#zin').onclick = () => dolly(.62); $('#zout').onclick = () => dolly(1.6);
+/* Wheel and touchpad zoom: proportional to the gesture (OrbitControls 0.160 zooms a fixed step per event, which makes a touchpad
+   jumpy), towards the point under the cursor. Runs before OrbitControls' own wheel handler and stops it; touch pinch stays with
+   OrbitControls. A touchpad pinch arrives as a wheel event with ctrlKey and small deltas, so it gets a higher gain. */
+const zoomPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), zoomHit = new THREE.Vector3(), zoomNdc = new THREE.Vector2();
+addEventListener('wheel', e => {
+  if (e.target !== canvas || !glOK) return;
+  e.preventDefault(); e.stopPropagation(); tween = null;
+  const dy = e.deltaY * (e.deltaMode === 1 ? 33 : e.deltaMode === 2 ? 800 : 1);
+  const f = Math.min(1.5, Math.max(.67, Math.exp(dy * (e.ctrlKey ? .011 : .0016))));
+  const off = cam.position.clone().sub(ctl.target), d0 = off.length();
+  const d1 = Math.min(ctl.maxDistance, Math.max(ctl.minDistance, d0 * f));
+  if (d1 === d0) return;
+  const r = canvas.getBoundingClientRect();
+  zoomNdc.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(zoomNdc, cam); zoomPlane.constant = -ctl.target.z;
+  if (d1 < d0 && ray.ray.intersectPlane(zoomPlane, zoomHit)) {           // in: move towards the cursor
+    const t = 1 - d1 / d0; ctl.target.lerp(zoomHit, t); cam.position.lerp(zoomHit, t);
+  } else cam.position.copy(ctl.target).add(off.setLength(d1));           // out: straight back
+  ctl.update(); wake();
+}, { capture: true, passive: false });
 addEventListener('keydown', e => { if (e.target.closest('select,input')) return; if (e.key === '+' || e.key === '=') dolly(.7); if (e.key === '-') dolly(1.45); if (e.key === '0') overview(); });
 const ray = new THREE.Raycaster();
 canvas.addEventListener('dblclick', e => {
