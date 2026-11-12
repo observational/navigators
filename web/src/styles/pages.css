@@ -62,5 +62,7 @@ body:has(.page:not([hidden])) header{background:linear-gradient(var(--ground) 88
 .plate .d10 circle{fill:none;stroke:var(--road);stroke-width:1.2;opacity:.6}
 .plate .d10 circle.on{fill:var(--road);opacity:1}
 
-.plate .pq{font:italic 400 15px/1.4 var(--serif);color:var(--bone);margin:10px 0 0;max-width:420px}
+.plate .pk{font:400 15.5px/1.35 var(--serif);color:var(--bone);margin:6px 0 0}
+.plate .pk b{color:var(--paper);font-weight:500}
+.plate .pk span{font:500 11.5px var(--mono);color:var(--paper);margin-left:6px}
 .d10l{display:block;font:11px/1.4 var(--sans);color:var(--dim);margin-top:4px}

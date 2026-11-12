@@ -108,4 +108,10 @@ export const modelLabel = k => k === 'all' ? 'All agents' : k === 'readers' ? 'R
 export const famOf = k => S.mod[k]?.family || 'deepseek';
 export const shortName = k => ({ 'DeepSeek4.1': 'DeepSeek', 'Grok4.7': 'Grok', 'MiMo2.6': 'MiMo', 'Qwen3.8': 'Qwen 3.8', 'Qwen3.7': 'Qwen 3.7', 'Gemini3.8': 'Gemini', 'Haiku5.5': 'Haiku', 'Luna': 'Luna', all: 'All agents', readers: 'Readers' }[k]);
 export function startInfo(pageId) { return S.fh.starts.find(s => s.page_id === pageId); }
+// the models a model's first picks match most and least often: [{ key, v }, { key, v }]
+export function kinOf(key) {
+  const A = S.kin.agreement, i = A.labels.indexOf(S.mod[key].label), keyOf = l => Object.keys(S.mod).find(k => S.mod[k].label === l);
+  const row = A.matrix[i].map((c, j) => ({ key: keyOf(A.labels[j]), v: c ? c.mean : null })).filter(c => c.v != null && c.key).sort((a, b) => b.v - a.v);
+  return [row[0], row[row.length - 1]];
+}
 export const title = id => S.byId.has(id) ? S.nodes[S.byId.get(id)].t : 'another page';

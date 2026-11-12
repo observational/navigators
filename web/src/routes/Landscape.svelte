@@ -1,7 +1,7 @@
 <script>
   // Landscape tab: side panel, controls, legend and captions in markup; the three.js scene lives in lib/map/scene.js.
   import { onMount } from 'svelte';
-  import { S, load, MODELS, esc } from '../lib/data.js';
+  import { S, load, MODELS, esc, kinOf, shortName } from '../lib/data.js';
   import { createMap } from '../lib/map/scene.js';
   import { SHORT, keyHtml } from '../lib/map/shapes.js';
   import { register, unregister } from '../lib/map/bridge.js';
@@ -37,11 +37,10 @@
     if (k === 'readers') return `<b>Human readers</b>: where people click first from the same pages.`;
     const m = F.models[k]; if (!m) return '';
     if (k === 'all') return `<b>All eight models</b>`;
-    const sr = m.step1_stop_reason, bo = m.blank_page_openings;
-    let s = `<b>${esc(m.label)}</b>. `;
-    if (sr && sr.n_step1_stops && !sr.small_n) s += sr.no_task >= .5 ? `When it stops at once, ${inN(sr.no_task)} times the reason is that nobody asked for anything. ` : `When it stops at once, ${inN(sr.page_sufficient)} times the reason is that the page already says enough. `;
-    else if (bo && bo.top3 && bo.top3.length) s += `On a blank page it opens ${esc(bo.top3[0].page)}. `;
-    if (m.quote) s += `<q>${esc(m.quote.text)}</q>`;
+    const bo = m.blank_page_openings, [near] = kinOf(k);
+    let s = `<b>${esc(m.label)}</b>. Picks most like ${esc(shortName(near.key))}. `;
+    if (bo && bo.top3 && bo.top3.length) s += `On a blank page it opens ${esc(bo.top3[0].page)}. `;
+    if (m.quote && m.quote.kind !== 'stop') s += `<q>${esc(m.quote.text)}</q>`;
     return s;
   }
 
