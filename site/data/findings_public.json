@@ -1,0 +1,247 @@
+{
+  "title": "What we found.",
+  "lede": "Language models browsing Wikipedia with nothing to do.",
+  "groups": [
+    {
+      "id": "alone",
+      "title": "Agents alone",
+      "sub": "Separate runs. No agent ever saw another.",
+      "cards": [
+        {
+          "id": "ladder",
+          "headline": "Different models make the same choice.",
+          "line": "Shown the same page, two different models pick the same link four times as often as two people do.",
+          "big": "4×",
+          "viz": {
+            "type": "dots",
+            "unit": "chance that two picks match",
+            "rows": [
+              {
+                "label": "two people",
+                "v": 0.1,
+                "who": "reader"
+              },
+              {
+                "label": "two different models",
+                "v": 0.42,
+                "who": "agent"
+              },
+              {
+                "label": "one model, twice",
+                "v": 0.56,
+                "who": "agent"
+              }
+            ]
+          }
+        },
+        {
+          "id": "voices",
+          "headline": "Many models, fewer than four voices.",
+          "line": "The models choose about as variedly as four people would.",
+          "big": "3.6",
+          "viz": {
+            "type": "pictogram",
+            "n": 10,
+            "effective": 3.6,
+            "labels": [
+              "the models",
+              "worth about 4 people"
+            ]
+          }
+        },
+        {
+          "id": "personas",
+          "headline": "A persona loosens the herd, a little.",
+          "line": "Asking a model to be an explorer spreads its choices. They still agree far more than people do.",
+          "viz": {
+            "type": "bars",
+            "unit": "chance that two different models pick the same link",
+            "rows": [
+              {
+                "label": "no persona",
+                "v": 0.44
+              },
+              {
+                "label": "assistant",
+                "v": 0.43
+              },
+              {
+                "label": "bored",
+                "v": 0.31
+              },
+              {
+                "label": "researcher",
+                "v": 0.28
+              },
+              {
+                "label": "explorer",
+                "v": 0.25
+              }
+            ],
+            "reference": {
+              "label": "two people",
+              "v": 0.1
+            }
+          }
+        },
+        {
+          "id": "top",
+          "headline": "They read the top of the page.",
+          "line": "Most first picks come from the first few links on a page.",
+          "big": "7 in 10",
+          "viz": {
+            "type": "share",
+            "rows": [
+              {
+                "label": "of the links on a page",
+                "v": 0.11
+              },
+              {
+                "label": "of the models' first picks",
+                "v": 0.7
+              }
+            ]
+          }
+        },
+        {
+          "id": "people",
+          "headline": "They skip people.",
+          "line": "Models open links to people about a third as often as readers do.",
+          "viz": {
+            "type": "ratio",
+            "rows": [
+              {
+                "label": "readers",
+                "v": 1.0,
+                "who": "reader",
+                "text": "1×"
+              },
+              {
+                "label": "models",
+                "v": 0.38,
+                "who": "agent",
+                "text": "⅓×"
+              }
+            ]
+          }
+        },
+        {
+          "id": "loops",
+          "headline": "One sentence stops the pacing.",
+          "line": "Models pace between two pages. One sentence about steps nearly ends it.",
+          "quote": "You can take 15 steps through links.",
+          "viz": {
+            "type": "before_after",
+            "unit": "moves that go straight back",
+            "rows": [
+              {
+                "label": "without the sentence",
+                "v": 0.81
+              },
+              {
+                "label": "with it",
+                "v": 0.25
+              }
+            ]
+          }
+        },
+        {
+          "id": "stopping",
+          "headline": "Given nothing to do, many stop.",
+          "line": "Asked to be an assistant, models stop sooner. Explorers almost never do.",
+          "big": "7 in 10",
+          "big_caption": "first-step stops say no task was given",
+          "viz": {
+            "type": "bars",
+            "unit": "stop at the first step",
+            "rows": [
+              {
+                "label": "assistant",
+                "v": 0.225
+              },
+              {
+                "label": "no persona",
+                "v": 0.125
+              },
+              {
+                "label": "explorer",
+                "v": 0.013
+              },
+              {
+                "label": "researcher",
+                "v": 0.013
+              },
+              {
+                "label": "bored",
+                "v": 0.0
+              }
+            ]
+          }
+        },
+        {
+          "id": "canon",
+          "headline": "The one real attractor.",
+          "line": "Following links, agents spread out after the first click. Given a search box and a blank page, they keep landing on the same oddities.",
+          "big": "36 of 80",
+          "big_caption": "blank-page openings land on Wikipedia's \"Unusual articles\"",
+          "viz": {
+            "type": "dotgrid",
+            "n": 80,
+            "k": 36
+          }
+        },
+        {
+          "id": "history",
+          "headline": "A fake past changes their words, not their path.",
+          "line": "Shown a browsing history that was not theirs, models take up its phrasing but do not follow its route.",
+          "viz": {
+            "type": "bars",
+            "unit": "change when the history is planted",
+            "rows": [
+              {
+                "label": "repeat its words",
+                "v": 0.35
+              },
+              {
+                "label": "follow its route",
+                "v": 0.015
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "together",
+      "title": "Agents together",
+      "sub": "Two agents, one shared working memory, the same start page.",
+      "cards": [
+        {
+          "id": "shared",
+          "headline": "Sharing a memory, they don't copy.",
+          "line": "Two agents with one memory take different links.",
+          "pending_rerun": true,
+          "chips": [
+            "fewer revisits",
+            "more pages covered"
+          ],
+          "viz": {
+            "type": "before_after",
+            "unit": "two DeepSeek agents pick the same first link",
+            "rows": [
+              {
+                "label": "can't see each other",
+                "v": 0.55
+              },
+              {
+                "label": "share one memory",
+                "v": 0.1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "footer": "Methods, tests and limits are in the paper."
+}

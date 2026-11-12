@@ -1,0 +1,510 @@
+{
+ "sigil_mapping": {
+  "label": "our mapping, not a fit",
+  "map": "x' = sin(a y) + c cos(a x); y' = sin(b x) + d cos(b y); start (0.1, 0.1); 1000 burn-in; 200000 points",
+  "a": "-2.0 + 0.5 * stop_rate",
+  "b": "1.5 + 0.5 * backtrack_share",
+  "c": "1.0 + 0.5 * clip((agreement_with_other_models - 0.20) / 0.30, 0, 1)",
+  "d": "1.0 + 0.5 * clip((agreement_with_humans - 0.05) / 0.15, 0, 1)",
+  "safe_box": {
+   "a": [
+    -2.0,
+    -1.5
+   ],
+   "b": [
+    1.5,
+    2.0
+   ],
+   "c": [
+    1.0,
+    1.5
+   ],
+   "d": [
+    1.0,
+    1.5
+   ]
+  },
+  "nondegeneracy": {
+   "coverage_min": 0.05,
+   "extent_min": 1.0,
+   "unique_fraction_min": 0.5,
+   "lyapunov": "> 0",
+   "grid": "100x100 over bounding box",
+   "points": 200000
+  }
+ },
+ "models": [
+  {
+   "id": "deepseek-v4.1-flash",
+   "key": "DeepSeek4.1",
+   "label": "DeepSeek V4.1 Flash",
+   "family": "deepseek",
+   "stop_rate": {
+    "value": 0.6,
+    "n_cells": 24,
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a76 (median over cells)"
+   },
+   "backtrack_share": {
+    "value": 0.04,
+    "condition": "STOP allowed, path_only memory",
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a75"
+   },
+   "agreement_step1": {
+    "with_other_models": {
+     "value": 0.3754,
+     "note": "mean over the other 7 models of pair agreement, step 1, T=1 top_p=1 pool, bootstrap CIs per pair in kin.json"
+    },
+    "with_humans": {
+     "value": 0.1287,
+     "lo": 0.0837,
+     "hi": 0.1856,
+     "n_starts": 20,
+     "note": "human-agent agreement, the analysis notes of 9-11 Nov 2026 \u00a71 measure (humans 0.113 pooled)"
+    }
+   },
+   "findings_labels": {
+    "matches_other_models": 0.6,
+    "matches_human_top": 0.345,
+    "n": 1709,
+    "note": "the analysis notes of 9-11 Nov 2026 \u00a71 'Each model matches the other models' consensus 56% of the time, and humans' top link 33%' (leave-one-out over decisions); from the v1 model tables"
+   },
+   "runs": {
+    "step1_runs_in_pool": 280,
+    "valid_decisions": 250,
+    "starts": 20,
+    "replay_runs_v1": 290
+   },
+   "provisional": false,
+   "sigil": {
+    "map": "clifford",
+    "a": -1.7,
+    "b": 1.52,
+    "c": 1.2924,
+    "d": 1.2623,
+    "nudged_steps": 0,
+    "check": {
+     "coverage_100x100": 0.8237,
+     "width": 4.585,
+     "height": 4.524,
+     "unique_fraction": 1.0,
+     "lyapunov": 0.541,
+     "ok": true
+    },
+    "label": "our mapping, not a fit"
+   }
+  },
+  {
+   "id": "grok-4.7",
+   "key": "Grok4.7",
+   "label": "Grok 4.7",
+   "family": "grok",
+   "stop_rate": {
+    "value": 0.1,
+    "n_cells": 25,
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a76 (median over cells)"
+   },
+   "backtrack_share": {
+    "value": 0.03,
+    "condition": "STOP allowed, path_only memory",
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a75"
+   },
+   "agreement_step1": {
+    "with_other_models": {
+     "value": 0.3702,
+     "note": "mean over the other 7 models of pair agreement, step 1, T=1 top_p=1 pool, bootstrap CIs per pair in kin.json"
+    },
+    "with_humans": {
+     "value": 0.1204,
+     "lo": 0.0765,
+     "hi": 0.1768,
+     "n_starts": 20,
+     "note": "human-agent agreement, the analysis notes of 9-11 Nov 2026 \u00a71 measure (humans 0.113 pooled)"
+    }
+   },
+   "findings_labels": {
+    "matches_other_models": 0.616,
+    "matches_human_top": 0.363,
+    "n": 1554,
+    "note": "the analysis notes of 9-11 Nov 2026 \u00a71 'Each model matches the other models' consensus 56% of the time, and humans' top link 33%' (leave-one-out over decisions); from the v1 model tables"
+   },
+   "runs": {
+    "step1_runs_in_pool": 180,
+    "valid_decisions": 180,
+    "starts": 20,
+    "replay_runs_v1": 290
+   },
+   "provisional": false,
+   "sigil": {
+    "map": "clifford",
+    "a": -1.95,
+    "b": 1.515,
+    "c": 1.2837,
+    "d": 1.2347,
+    "nudged_steps": 0,
+    "check": {
+     "coverage_100x100": 0.8494,
+     "width": 4.567,
+     "height": 4.469,
+     "unique_fraction": 0.9998,
+     "lyapunov": 0.565,
+     "ok": true
+    },
+    "label": "our mapping, not a fit"
+   }
+  },
+  {
+   "id": "mimo-v2.6-pro",
+   "key": "MiMo2.6",
+   "label": "MiMo v2.6 Pro",
+   "family": "mimo",
+   "stop_rate": {
+    "value": 0.3,
+    "n_cells": 25,
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a76 (median over cells)"
+   },
+   "backtrack_share": {
+    "value": 0.14,
+    "condition": "STOP allowed, path_only memory",
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a75"
+   },
+   "agreement_step1": {
+    "with_other_models": {
+     "value": 0.3974,
+     "note": "mean over the other 7 models of pair agreement, step 1, T=1 top_p=1 pool, bootstrap CIs per pair in kin.json"
+    },
+    "with_humans": {
+     "value": 0.1389,
+     "lo": 0.0882,
+     "hi": 0.2038,
+     "n_starts": 20,
+     "note": "human-agent agreement, the analysis notes of 9-11 Nov 2026 \u00a71 measure (humans 0.113 pooled)"
+    }
+   },
+   "findings_labels": {
+    "matches_other_models": 0.603,
+    "matches_human_top": 0.297,
+    "n": 1754,
+    "note": "the analysis notes of 9-11 Nov 2026 \u00a71 'Each model matches the other models' consensus 56% of the time, and humans' top link 33%' (leave-one-out over decisions); from the v1 model tables"
+   },
+   "runs": {
+    "step1_runs_in_pool": 180,
+    "valid_decisions": 174,
+    "starts": 20,
+    "replay_runs_v1": 290
+   },
+   "provisional": false,
+   "sigil": {
+    "map": "clifford",
+    "a": -1.85,
+    "b": 1.57,
+    "c": 1.329,
+    "d": 1.2963,
+    "nudged_steps": 0,
+    "check": {
+     "coverage_100x100": 0.8522,
+     "width": 4.658,
+     "height": 4.592,
+     "unique_fraction": 1.0,
+     "lyapunov": 0.58,
+     "ok": true
+    },
+    "label": "our mapping, not a fit"
+   }
+  },
+  {
+   "id": "qwen3.8-flash",
+   "key": "Qwen3.8",
+   "label": "Qwen 3.8 Flash",
+   "family": "qwen",
+   "stop_rate": {
+    "value": 0.45,
+    "n_cells": 25,
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a76 (median over cells); the analysis notes print Qwen = 0.45, which is Qwen3.8"
+   },
+   "backtrack_share": {
+    "value": 0.55,
+    "condition": "STOP allowed, path_only memory",
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a75"
+   },
+   "agreement_step1": {
+    "with_other_models": {
+     "value": 0.3459,
+     "note": "mean over the other 7 models of pair agreement, step 1, T=1 top_p=1 pool, bootstrap CIs per pair in kin.json"
+    },
+    "with_humans": {
+     "value": 0.1327,
+     "lo": 0.0845,
+     "hi": 0.1963,
+     "n_starts": 20,
+     "note": "human-agent agreement, the analysis notes of 9-11 Nov 2026 \u00a71 measure (humans 0.113 pooled)"
+    }
+   },
+   "findings_labels": {
+    "matches_other_models": 0.593,
+    "matches_human_top": 0.41,
+    "n": 1606,
+    "note": "the analysis notes of 9-11 Nov 2026 \u00a71 'Each model matches the other models' consensus 56% of the time, and humans' top link 33%' (leave-one-out over decisions); from the v1 model tables"
+   },
+   "runs": {
+    "step1_runs_in_pool": 180,
+    "valid_decisions": 165,
+    "starts": 20,
+    "replay_runs_v1": 290
+   },
+   "provisional": false,
+   "sigil": {
+    "map": "clifford",
+    "a": -1.775,
+    "b": 1.775,
+    "c": 1.2432,
+    "d": 1.2757,
+    "nudged_steps": 0,
+    "check": {
+     "coverage_100x100": 0.8065,
+     "width": 4.486,
+     "height": 4.551,
+     "unique_fraction": 1.0,
+     "lyapunov": 0.621,
+     "ok": true
+    },
+    "label": "our mapping, not a fit"
+   }
+  },
+  {
+   "id": "qwen3.7-flash",
+   "key": "Qwen3.7",
+   "label": "Qwen 3.7 Flash",
+   "family": "qwen",
+   "stop_rate": {
+    "value": 0.125,
+    "n_cells": 2,
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a76 (median over cells); PROVISIONAL, 2 cells only, not printed in the analysis notes of 9-11 Nov 2026"
+   },
+   "backtrack_share": {
+    "value": 0.608,
+    "condition": "STOP allowed, path_only memory",
+    "source": "the history-injection backtrack tables of the analysis notes of 9-11 Nov 2026 (path_only, stop allowed, 146 runs); not in the analysis notes of 9-11 Nov 2026 \u00a75"
+   },
+   "agreement_step1": {
+    "with_other_models": {
+     "value": 0.3,
+     "note": "mean over the other 7 models of pair agreement, step 1, T=1 top_p=1 pool, bootstrap CIs per pair in kin.json"
+    },
+    "with_humans": {
+     "value": 0.0947,
+     "lo": 0.0618,
+     "hi": 0.138,
+     "n_starts": 20,
+     "note": "human-agent agreement, the analysis notes of 9-11 Nov 2026 \u00a71 measure (humans 0.113 pooled)"
+    }
+   },
+   "findings_labels": {
+    "matches_other_models": 0.528,
+    "matches_human_top": 0.296,
+    "n": 729,
+    "note": "the analysis notes of 9-11 Nov 2026 \u00a71 'Each model matches the other models' consensus 56% of the time, and humans' top link 33%' (leave-one-out over decisions); from the v1 model tables"
+   },
+   "runs": {
+    "step1_runs_in_pool": 180,
+    "valid_decisions": 172,
+    "starts": 20,
+    "replay_runs_v1": 80
+   },
+   "provisional": true,
+   "sigil": {
+    "map": "clifford",
+    "a": -1.9375,
+    "b": 1.804,
+    "c": 1.1666,
+    "d": 1.149,
+    "nudged_steps": 0,
+    "check": {
+     "coverage_100x100": 0.8286,
+     "width": 4.333,
+     "height": 4.298,
+     "unique_fraction": 1.0,
+     "lyapunov": 0.621,
+     "ok": true
+    },
+    "label": "our mapping, not a fit"
+   }
+  },
+  {
+   "id": "gemini-3.8-flash",
+   "key": "Gemini3.8",
+   "label": "Gemini 3.8 Flash",
+   "family": "gemini",
+   "stop_rate": {
+    "value": 0.8,
+    "n_cells": 25,
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a76 (median over cells)"
+   },
+   "backtrack_share": {
+    "value": 0.002,
+    "condition": "STOP allowed, path_only memory",
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a75"
+   },
+   "agreement_step1": {
+    "with_other_models": {
+     "value": 0.2716,
+     "note": "mean over the other 7 models of pair agreement, step 1, T=1 top_p=1 pool, bootstrap CIs per pair in kin.json"
+    },
+    "with_humans": {
+     "value": 0.0862,
+     "lo": 0.0558,
+     "hi": 0.1245,
+     "n_starts": 20,
+     "note": "human-agent agreement, the analysis notes of 9-11 Nov 2026 \u00a71 measure (humans 0.113 pooled)"
+    }
+   },
+   "findings_labels": {
+    "matches_other_models": 0.306,
+    "matches_human_top": 0.19,
+    "n": 568,
+    "note": "the analysis notes of 9-11 Nov 2026 \u00a71 'Each model matches the other models' consensus 56% of the time, and humans' top link 33%' (leave-one-out over decisions); from the v1 model tables"
+   },
+   "runs": {
+    "step1_runs_in_pool": 180,
+    "valid_decisions": 153,
+    "starts": 20,
+    "replay_runs_v1": 290
+   },
+   "provisional": false,
+   "sigil": {
+    "map": "clifford",
+    "a": -1.6,
+    "b": 1.501,
+    "c": 1.1193,
+    "d": 1.1207,
+    "nudged_steps": 0,
+    "check": {
+     "coverage_100x100": 0.8067,
+     "width": 4.238,
+     "height": 4.212,
+     "unique_fraction": 1.0,
+     "lyapunov": 0.432,
+     "ok": true
+    },
+    "label": "our mapping, not a fit"
+   }
+  },
+  {
+   "id": "claude-haiku-5.5",
+   "key": "Haiku5.5",
+   "label": "Claude Haiku 5.5",
+   "family": "haiku",
+   "stop_rate": {
+    "value": 0.85,
+    "n_cells": 24,
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a76 (median over cells)"
+   },
+   "backtrack_share": {
+    "value": 0.19,
+    "condition": "STOP allowed, path_only memory",
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a75"
+   },
+   "agreement_step1": {
+    "with_other_models": {
+     "value": 0.2688,
+     "note": "mean over the other 7 models of pair agreement, step 1, T=1 top_p=1 pool, bootstrap CIs per pair in kin.json"
+    },
+    "with_humans": {
+     "value": 0.0832,
+     "lo": 0.0559,
+     "hi": 0.1192,
+     "n_starts": 20,
+     "note": "human-agent agreement, the analysis notes of 9-11 Nov 2026 \u00a71 measure (humans 0.113 pooled)"
+    }
+   },
+   "findings_labels": {
+    "matches_other_models": 0.469,
+    "matches_human_top": 0.281,
+    "n": 1147,
+    "note": "the analysis notes of 9-11 Nov 2026 \u00a71 'Each model matches the other models' consensus 56% of the time, and humans' top link 33%' (leave-one-out over decisions); from the v1 model tables"
+   },
+   "runs": {
+    "step1_runs_in_pool": 240,
+    "valid_decisions": 201,
+    "starts": 20,
+    "replay_runs_v1": 250
+   },
+   "provisional": false,
+   "sigil": {
+    "map": "clifford",
+    "a": -1.575,
+    "b": 1.595,
+    "c": 1.1146,
+    "d": 1.1107,
+    "nudged_steps": 0,
+    "check": {
+     "coverage_100x100": 0.8069,
+     "width": 4.21,
+     "height": 4.21,
+     "unique_fraction": 1.0,
+     "lyapunov": 0.459,
+     "ok": true
+    },
+    "label": "our mapping, not a fit"
+   }
+  },
+  {
+   "id": "gpt-6-luna",
+   "key": "Luna",
+   "label": "GPT-6 Luna",
+   "family": "gpt",
+   "stop_rate": {
+    "value": 0.1,
+    "n_cells": 24,
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a76 (median over cells)"
+   },
+   "backtrack_share": {
+    "value": 0.32,
+    "condition": "STOP allowed, path_only memory",
+    "source": "the analysis notes of 9-11 Nov 2026 \u00a75"
+   },
+   "agreement_step1": {
+    "with_other_models": {
+     "value": 0.3065,
+     "note": "mean over the other 7 models of pair agreement, step 1, T=1 top_p=1 pool, bootstrap CIs per pair in kin.json"
+    },
+    "with_humans": {
+     "value": 0.136,
+     "lo": 0.0694,
+     "hi": 0.2315,
+     "n_starts": 10,
+     "note": "human-agent agreement, the analysis notes of 9-11 Nov 2026 \u00a71 measure (humans 0.113 pooled)"
+    }
+   },
+   "findings_labels": {
+    "matches_other_models": 0.493,
+    "matches_human_top": 0.409,
+    "n": 391,
+    "note": "the analysis notes of 9-11 Nov 2026 \u00a71 'Each model matches the other models' consensus 56% of the time, and humans' top link 33%' (leave-one-out over decisions); from the v1 model tables"
+   },
+   "runs": {
+    "step1_runs_in_pool": 50,
+    "valid_decisions": 46,
+    "starts": 10,
+    "replay_runs_v1": 160
+   },
+   "provisional": true,
+   "sigil": {
+    "map": "clifford",
+    "a": -1.95,
+    "b": 1.66,
+    "c": 1.1775,
+    "d": 1.2867,
+    "nudged_steps": 0,
+    "check": {
+     "coverage_100x100": 0.8612,
+     "width": 4.355,
+     "height": 4.573,
+     "unique_fraction": 1.0,
+     "lyapunov": 0.586,
+     "ok": true
+    },
+    "label": "our mapping, not a fit"
+   }
+  }
+ ]
+}

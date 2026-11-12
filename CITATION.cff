@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you refer to this site, please cite it."
+title: "Navigators"
+authors:
+  - name: "The Navigators authors"
+date-released: "2026-11-12"
+url: "https://observational.github.io/navigators/"
+repository-code: "https://github.com/observational/navigators"
+license: MIT

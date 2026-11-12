@@ -1,0 +1,936 @@
+{
+ "measure": "P(two step-1 first clicks from the same start page pick the same link), T=1 top_p=1 pool, STOP/invalid decisions dropped; mean over cell pairs within a start, then over starts. Distance = 1 - agreement. Average linkage. Human leaf: distance to model m = 1 - mean over starts of (clickstream probability of the model's choice).",
+ "source": "the analysis notes of 9-11 Nov 2026 \u00a71; the context-lever tables in the same notes, Table 2 row 1",
+ "labels": [
+  "DeepSeek V4.1 Flash",
+  "Grok 4.7",
+  "MiMo v2.6 Pro",
+  "Qwen 3.8 Flash",
+  "Qwen 3.7 Flash",
+  "Gemini 3.8 Flash",
+  "Claude Haiku 5.5",
+  "GPT-6 Luna",
+  "Human readers"
+ ],
+ "models": [
+  {
+   "model": "DeepSeek4.1",
+   "id": "deepseek-v4.1-flash",
+   "label": "DeepSeek V4.1 Flash",
+   "family": "deepseek",
+   "step1_runs_in_pool": 280,
+   "valid_decisions": 250,
+   "stop_at_step1": 30,
+   "starts": 20,
+   "contexts": 201,
+   "decisions_per_start_median": 12.0,
+   "replay_runs_v1": 290,
+   "few_runs": false
+  },
+  {
+   "model": "Grok4.7",
+   "id": "grok-4.7",
+   "label": "Grok 4.7",
+   "family": "grok",
+   "step1_runs_in_pool": 180,
+   "valid_decisions": 180,
+   "stop_at_step1": 0,
+   "starts": 20,
+   "contexts": 180,
+   "decisions_per_start_median": 9.0,
+   "replay_runs_v1": 290,
+   "few_runs": false
+  },
+  {
+   "model": "MiMo2.6",
+   "id": "mimo-v2.6-pro",
+   "label": "MiMo v2.6 Pro",
+   "family": "mimo",
+   "step1_runs_in_pool": 180,
+   "valid_decisions": 174,
+   "stop_at_step1": 6,
+   "starts": 20,
+   "contexts": 174,
+   "decisions_per_start_median": 9.0,
+   "replay_runs_v1": 290,
+   "few_runs": false
+  },
+  {
+   "model": "Qwen3.8",
+   "id": "qwen3.8-flash",
+   "label": "Qwen 3.8 Flash",
+   "family": "qwen",
+   "step1_runs_in_pool": 180,
+   "valid_decisions": 165,
+   "stop_at_step1": 15,
+   "starts": 20,
+   "contexts": 165,
+   "decisions_per_start_median": 8.0,
+   "replay_runs_v1": 290,
+   "few_runs": false
+  },
+  {
+   "model": "Qwen3.7",
+   "id": "qwen3.7-flash",
+   "label": "Qwen 3.7 Flash",
+   "family": "qwen",
+   "step1_runs_in_pool": 180,
+   "valid_decisions": 172,
+   "stop_at_step1": 8,
+   "starts": 20,
+   "contexts": 152,
+   "decisions_per_start_median": 9.0,
+   "replay_runs_v1": 80,
+   "few_runs": false
+  },
+  {
+   "model": "Gemini3.8",
+   "id": "gemini-3.8-flash",
+   "label": "Gemini 3.8 Flash",
+   "family": "gemini",
+   "step1_runs_in_pool": 180,
+   "valid_decisions": 153,
+   "stop_at_step1": 27,
+   "starts": 20,
+   "contexts": 153,
+   "decisions_per_start_median": 7.0,
+   "replay_runs_v1": 290,
+   "few_runs": false
+  },
+  {
+   "model": "Haiku5.5",
+   "id": "claude-haiku-5.5",
+   "label": "Claude Haiku 5.5",
+   "family": "haiku",
+   "step1_runs_in_pool": 240,
+   "valid_decisions": 201,
+   "stop_at_step1": 39,
+   "starts": 20,
+   "contexts": 181,
+   "decisions_per_start_median": 10.0,
+   "replay_runs_v1": 250,
+   "few_runs": false
+  },
+  {
+   "model": "Luna",
+   "id": "gpt-6-luna",
+   "label": "GPT-6 Luna",
+   "family": "gpt",
+   "step1_runs_in_pool": 50,
+   "valid_decisions": 46,
+   "stop_at_step1": 4,
+   "starts": 10,
+   "contexts": 46,
+   "decisions_per_start_median": 5.0,
+   "replay_runs_v1": 160,
+   "few_runs": true
+  }
+ ],
+ "starts": [
+  "0-6-0",
+  "Albert Schweitzer",
+  "Archer (2009 TV series)",
+  "Bob Hoskins",
+  "Boy Meets World",
+  "Cadmium",
+  "Canton of Glarus",
+  "Fear Factory",
+  "Florida Complex League",
+  "Giorgio Armani",
+  "Hengelo",
+  "Honda Racing Corporation",
+  "ING Group",
+  "James Wyatt",
+  "Longford",
+  "Louvre Palace",
+  "Osaka Kintetsu Buffaloes",
+  "Richard Widmark",
+  "Spreadsheet",
+  "Vermont House of Representatives"
+ ],
+ "starts_with_human": 20,
+ "agreement": {
+  "labels": [
+   "DeepSeek V4.1 Flash",
+   "Grok 4.7",
+   "MiMo v2.6 Pro",
+   "Qwen 3.8 Flash",
+   "Qwen 3.7 Flash",
+   "Gemini 3.8 Flash",
+   "Claude Haiku 5.5",
+   "GPT-6 Luna"
+  ],
+  "matrix": [
+   [
+    null,
+    {
+     "mean": 0.4169,
+     "lo": 0.289,
+     "hi": 0.5457,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.5443,
+     "lo": 0.4386,
+     "hi": 0.6537,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3919,
+     "lo": 0.2882,
+     "hi": 0.5036,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3437,
+     "lo": 0.2499,
+     "hi": 0.4447,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2752,
+     "lo": 0.1699,
+     "hi": 0.3857,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2613,
+     "lo": 0.1866,
+     "hi": 0.3369,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3946,
+     "lo": 0.2638,
+     "hi": 0.5433,
+     "n_starts": 10
+    }
+   ],
+   [
+    {
+     "mean": 0.4169,
+     "lo": 0.289,
+     "hi": 0.5457,
+     "n_starts": 20
+    },
+    null,
+    {
+     "mean": 0.4644,
+     "lo": 0.3212,
+     "hi": 0.6086,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.4058,
+     "lo": 0.2849,
+     "hi": 0.5267,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3478,
+     "lo": 0.2491,
+     "hi": 0.4551,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3521,
+     "lo": 0.2647,
+     "hi": 0.4439,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.35,
+     "lo": 0.2677,
+     "hi": 0.4411,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2544,
+     "lo": 0.1333,
+     "hi": 0.3845,
+     "n_starts": 10
+    }
+   ],
+   [
+    {
+     "mean": 0.5443,
+     "lo": 0.4386,
+     "hi": 0.6537,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.4644,
+     "lo": 0.3212,
+     "hi": 0.6086,
+     "n_starts": 20
+    },
+    null,
+    {
+     "mean": 0.4454,
+     "lo": 0.3235,
+     "hi": 0.5736,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3211,
+     "lo": 0.2298,
+     "hi": 0.4259,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2748,
+     "lo": 0.1727,
+     "hi": 0.3793,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.302,
+     "lo": 0.2313,
+     "hi": 0.3771,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.43,
+     "lo": 0.2789,
+     "hi": 0.5922,
+     "n_starts": 10
+    }
+   ],
+   [
+    {
+     "mean": 0.3919,
+     "lo": 0.2882,
+     "hi": 0.5036,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.4058,
+     "lo": 0.2849,
+     "hi": 0.5267,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.4454,
+     "lo": 0.3235,
+     "hi": 0.5736,
+     "n_starts": 20
+    },
+    null,
+    {
+     "mean": 0.3249,
+     "lo": 0.2268,
+     "hi": 0.4401,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2604,
+     "lo": 0.1701,
+     "hi": 0.3658,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2414,
+     "lo": 0.1627,
+     "hi": 0.3219,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3515,
+     "lo": 0.1533,
+     "hi": 0.5565,
+     "n_starts": 10
+    }
+   ],
+   [
+    {
+     "mean": 0.3437,
+     "lo": 0.2499,
+     "hi": 0.4447,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3478,
+     "lo": 0.2491,
+     "hi": 0.4551,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3211,
+     "lo": 0.2298,
+     "hi": 0.4259,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3249,
+     "lo": 0.2268,
+     "hi": 0.4401,
+     "n_starts": 20
+    },
+    null,
+    {
+     "mean": 0.2659,
+     "lo": 0.1752,
+     "hi": 0.373,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2376,
+     "lo": 0.1581,
+     "hi": 0.3327,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2589,
+     "lo": 0.1454,
+     "hi": 0.3804,
+     "n_starts": 10
+    }
+   ],
+   [
+    {
+     "mean": 0.2752,
+     "lo": 0.1699,
+     "hi": 0.3857,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.3521,
+     "lo": 0.2647,
+     "hi": 0.4439,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2748,
+     "lo": 0.1727,
+     "hi": 0.3793,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2604,
+     "lo": 0.1701,
+     "hi": 0.3658,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2659,
+     "lo": 0.1752,
+     "hi": 0.373,
+     "n_starts": 20
+    },
+    null,
+    {
+     "mean": 0.2528,
+     "lo": 0.1864,
+     "hi": 0.3221,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2199,
+     "lo": 0.1007,
+     "hi": 0.35,
+     "n_starts": 10
+    }
+   ],
+   [
+    {
+     "mean": 0.2613,
+     "lo": 0.1866,
+     "hi": 0.3369,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.35,
+     "lo": 0.2677,
+     "hi": 0.4411,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.302,
+     "lo": 0.2313,
+     "hi": 0.3771,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2414,
+     "lo": 0.1627,
+     "hi": 0.3219,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2376,
+     "lo": 0.1581,
+     "hi": 0.3327,
+     "n_starts": 20
+    },
+    {
+     "mean": 0.2528,
+     "lo": 0.1864,
+     "hi": 0.3221,
+     "n_starts": 20
+    },
+    null,
+    {
+     "mean": 0.2364,
+     "lo": 0.1488,
+     "hi": 0.3282,
+     "n_starts": 10
+    }
+   ],
+   [
+    {
+     "mean": 0.3946,
+     "lo": 0.2638,
+     "hi": 0.5433,
+     "n_starts": 10
+    },
+    {
+     "mean": 0.2544,
+     "lo": 0.1333,
+     "hi": 0.3845,
+     "n_starts": 10
+    },
+    {
+     "mean": 0.43,
+     "lo": 0.2789,
+     "hi": 0.5922,
+     "n_starts": 10
+    },
+    {
+     "mean": 0.3515,
+     "lo": 0.1533,
+     "hi": 0.5565,
+     "n_starts": 10
+    },
+    {
+     "mean": 0.2589,
+     "lo": 0.1454,
+     "hi": 0.3804,
+     "n_starts": 10
+    },
+    {
+     "mean": 0.2199,
+     "lo": 0.1007,
+     "hi": 0.35,
+     "n_starts": 10
+    },
+    {
+     "mean": 0.2364,
+     "lo": 0.1488,
+     "hi": 0.3282,
+     "n_starts": 10
+    },
+    null
+   ]
+  ],
+  "human_vs_model": {
+   "DeepSeek V4.1 Flash": {
+    "mean": 0.1287,
+    "lo": 0.0837,
+    "hi": 0.1856,
+    "n_starts": 20
+   },
+   "Grok 4.7": {
+    "mean": 0.1204,
+    "lo": 0.0765,
+    "hi": 0.1768,
+    "n_starts": 20
+   },
+   "MiMo v2.6 Pro": {
+    "mean": 0.1389,
+    "lo": 0.0882,
+    "hi": 0.2038,
+    "n_starts": 20
+   },
+   "Qwen 3.8 Flash": {
+    "mean": 0.1327,
+    "lo": 0.0845,
+    "hi": 0.1963,
+    "n_starts": 20
+   },
+   "Qwen 3.7 Flash": {
+    "mean": 0.0947,
+    "lo": 0.0618,
+    "hi": 0.138,
+    "n_starts": 20
+   },
+   "Gemini 3.8 Flash": {
+    "mean": 0.0862,
+    "lo": 0.0558,
+    "hi": 0.1245,
+    "n_starts": 20
+   },
+   "Claude Haiku 5.5": {
+    "mean": 0.0832,
+    "lo": 0.0559,
+    "hi": 0.1192,
+    "n_starts": 20
+   },
+   "GPT-6 Luna": {
+    "mean": 0.136,
+    "lo": 0.0694,
+    "hi": 0.2315,
+    "n_starts": 10
+   }
+  }
+ },
+ "ladder": {
+  "SM_SC": {
+   "mean": 0.6556,
+   "lo": 0.5292,
+   "hi": 0.7736,
+   "n_starts": 20
+  },
+  "SM_DC": {
+   "mean": 0.4692,
+   "lo": 0.4101,
+   "hi": 0.5289,
+   "n_starts": 20
+  },
+  "DM_SC": {
+   "mean": 0.3829,
+   "lo": 0.305,
+   "hi": 0.4665,
+   "n_starts": 20
+  },
+  "DM_DC": {
+   "mean": 0.3358,
+   "lo": 0.2662,
+   "hi": 0.4109,
+   "n_starts": 20
+  }
+ },
+ "cross_model_pooled": {
+  "mean": 0.3362,
+  "lo": 0.2663,
+  "hi": 0.413,
+  "n_starts": 20
+ },
+ "human_agent": {
+  "mean": 0.113,
+  "lo": 0.0745,
+  "hi": 0.1637,
+  "n_starts": 20
+ },
+ "human_human": {
+  "mean": 0.1034,
+  "lo": 0.0754,
+  "hi": 0.1384,
+  "n_starts": 20
+ },
+ "tree": {
+  "height": 0.8849,
+  "support": 1.0,
+  "children": [
+   {
+    "name": "Human readers"
+   },
+   {
+    "height": 0.7312,
+    "support": 1.0,
+    "children": [
+     {
+      "name": "Claude Haiku 5.5"
+     },
+     {
+      "height": 0.7253,
+      "support": 0.417,
+      "children": [
+       {
+        "name": "Gemini 3.8 Flash"
+       },
+       {
+        "height": 0.6807,
+        "support": 0.466,
+        "children": [
+         {
+          "name": "Qwen 3.7 Flash"
+         },
+         {
+          "height": 0.6424,
+          "support": 0.446,
+          "children": [
+           {
+            "name": "GPT-6 Luna"
+           },
+           {
+            "height": 0.5856,
+            "support": 0.474,
+            "children": [
+             {
+              "name": "Qwen 3.8 Flash"
+             },
+             {
+              "height": 0.5594,
+              "support": 0.436,
+              "children": [
+               {
+                "name": "Grok 4.7"
+               },
+               {
+                "height": 0.4557,
+                "support": 0.858,
+                "children": [
+                 {
+                  "name": "DeepSeek V4.1 Flash"
+                 },
+                 {
+                  "name": "MiMo v2.6 Pro"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "clade_support": [
+  {
+   "members": [
+    "Claude Haiku 5.5",
+    "DeepSeek V4.1 Flash",
+    "GPT-6 Luna",
+    "Gemini 3.8 Flash",
+    "Grok 4.7",
+    "MiMo v2.6 Pro",
+    "Qwen 3.7 Flash",
+    "Qwen 3.8 Flash"
+   ],
+   "support": 1.0
+  },
+  {
+   "members": [
+    "Claude Haiku 5.5",
+    "DeepSeek V4.1 Flash",
+    "GPT-6 Luna",
+    "Gemini 3.8 Flash",
+    "Grok 4.7",
+    "Human readers",
+    "MiMo v2.6 Pro",
+    "Qwen 3.7 Flash",
+    "Qwen 3.8 Flash"
+   ],
+   "support": 1.0
+  },
+  {
+   "members": [
+    "DeepSeek V4.1 Flash",
+    "MiMo v2.6 Pro"
+   ],
+   "support": 0.858
+  },
+  {
+   "members": [
+    "DeepSeek V4.1 Flash",
+    "Grok 4.7",
+    "MiMo v2.6 Pro",
+    "Qwen 3.8 Flash"
+   ],
+   "support": 0.474
+  },
+  {
+   "members": [
+    "DeepSeek V4.1 Flash",
+    "GPT-6 Luna",
+    "Grok 4.7",
+    "MiMo v2.6 Pro",
+    "Qwen 3.7 Flash",
+    "Qwen 3.8 Flash"
+   ],
+   "support": 0.466
+  },
+  {
+   "members": [
+    "DeepSeek V4.1 Flash",
+    "GPT-6 Luna",
+    "Grok 4.7",
+    "MiMo v2.6 Pro",
+    "Qwen 3.8 Flash"
+   ],
+   "support": 0.446
+  },
+  {
+   "members": [
+    "DeepSeek V4.1 Flash",
+    "Grok 4.7",
+    "MiMo v2.6 Pro"
+   ],
+   "support": 0.436
+  },
+  {
+   "members": [
+    "DeepSeek V4.1 Flash",
+    "GPT-6 Luna",
+    "Gemini 3.8 Flash",
+    "Grok 4.7",
+    "MiMo v2.6 Pro",
+    "Qwen 3.7 Flash",
+    "Qwen 3.8 Flash"
+   ],
+   "support": 0.417
+  }
+ ],
+ "qwen_pair": {
+  "q37_vs_q38": {
+   "mean": 0.3249,
+   "lo": 0.2268,
+   "hi": 0.4401,
+   "n_starts": 20
+  },
+  "note": "Qwen 3.7 and 3.8 are not sister leaves in the main tree; their pair agreement and the clade supports show whether that is robust."
+ },
+ "leaf_order": [
+  "Human readers",
+  "Claude Haiku 5.5",
+  "Gemini 3.8 Flash",
+  "Qwen 3.7 Flash",
+  "GPT-6 Luna",
+  "Qwen 3.8 Flash",
+  "Grok 4.7",
+  "DeepSeek V4.1 Flash",
+  "MiMo v2.6 Pro"
+ ],
+ "bootstrap": {
+  "B": 2000,
+  "valid": 2000,
+  "unit": "start pages (20), resampled with replacement",
+  "cophenetic_note": "support = fraction of resampled trees containing the clade"
+ },
+ "sensitivity": {
+  "same_context_pairs_only": {
+   "same_topology": false,
+   "leaf_order": [
+    "Human readers",
+    "GPT-6 Luna",
+    "Qwen 3.7 Flash",
+    "Grok 4.7",
+    "Qwen 3.8 Flash",
+    "DeepSeek V4.1 Flash",
+    "MiMo v2.6 Pro",
+    "Gemini 3.8 Flash",
+    "Claude Haiku 5.5"
+   ],
+   "clades_differing": [
+    [
+     "DeepSeek V4.1 Flash",
+     "MiMo v2.6 Pro",
+     "Qwen 3.8 Flash"
+    ],
+    [
+     "DeepSeek V4.1 Flash",
+     "Grok 4.7",
+     "MiMo v2.6 Pro",
+     "Qwen 3.7 Flash",
+     "Qwen 3.8 Flash"
+    ],
+    [
+     "Claude Haiku 5.5",
+     "DeepSeek V4.1 Flash",
+     "Gemini 3.8 Flash",
+     "Grok 4.7",
+     "MiMo v2.6 Pro",
+     "Qwen 3.7 Flash",
+     "Qwen 3.8 Flash"
+    ],
+    [
+     "Claude Haiku 5.5",
+     "Gemini 3.8 Flash"
+    ]
+   ]
+  },
+  "different_context_pairs_only": {
+   "same_topology": true,
+   "leaf_order": [
+    "Human readers",
+    "Claude Haiku 5.5",
+    "Gemini 3.8 Flash",
+    "Qwen 3.7 Flash",
+    "GPT-6 Luna",
+    "Qwen 3.8 Flash",
+    "Grok 4.7",
+    "DeepSeek V4.1 Flash",
+    "MiMo v2.6 Pro"
+   ],
+   "clades_differing": []
+  },
+  "only_the_10_starts_Luna_has": {
+   "same_topology": false,
+   "leaf_order": [
+    "Human readers",
+    "Claude Haiku 5.5",
+    "Gemini 3.8 Flash",
+    "Qwen 3.7 Flash",
+    "GPT-6 Luna",
+    "Grok 4.7",
+    "Qwen 3.8 Flash",
+    "DeepSeek V4.1 Flash",
+    "MiMo v2.6 Pro"
+   ],
+   "clades_differing": [
+    [
+     "DeepSeek V4.1 Flash",
+     "MiMo v2.6 Pro",
+     "Qwen 3.8 Flash"
+    ]
+   ]
+  },
+  "without_Luna_leaf_order": [
+   "Human readers",
+   "Claude Haiku 5.5",
+   "Gemini 3.8 Flash",
+   "Qwen 3.7 Flash",
+   "Qwen 3.8 Flash",
+   "Grok 4.7",
+   "DeepSeek V4.1 Flash",
+   "MiMo v2.6 Pro"
+  ],
+  "without_Qwen3.7_leaf_order": [
+   "Human readers",
+   "Gemini 3.8 Flash",
+   "Claude Haiku 5.5",
+   "GPT-6 Luna",
+   "Qwen 3.8 Flash",
+   "Grok 4.7",
+   "DeepSeek V4.1 Flash",
+   "MiMo v2.6 Pro"
+  ]
+ },
+ "checks": {
+  "DM_SC_in_CI": true,
+  "DM_DC_ok": true,
+  "HH_ok": true,
+  "HA_ok_within_CI_of_0.12": true,
+  "targets": {
+   "DM_SC": [
+    0.38,
+    0.31,
+    0.47
+   ],
+   "DM_DC": [
+    0.34,
+    0.27,
+    0.41
+   ],
+   "HH": [
+    0.1,
+    0.07,
+    0.13
+   ],
+   "HA_findings": 0.12,
+   "HA_A_table1_T1": 0.11
+  }
+ },
+ "notes": [
+  "Distances for the human leaf use human-agent agreement (about 0.1), so readers join last by construction; the tree shows model-vs-model structure, readers are the outgroup.",
+  "Two human readers agree with each other at HH (human_human); this value is not a distance between a reader and the readers leaf.",
+  "GPT-6 Luna: 46 valid decisions on 10 of the 20 starts (it drops sampling parameters); its pair values rest on 10 starts and 1-3 runs per cell."
+ ]
+}

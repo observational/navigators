@@ -1,0 +1,213 @@
+{
+ "note": "Each model has its own kind of chaotic map (identity); its stop rate, backtracking and agreement bend the parameters. Our mapping, not a fit.",
+ "models": {
+  "DeepSeek4.1": {
+   "label": "DeepSeek V4.1 Flash",
+   "family": "deepseek",
+   "map": "dejong",
+   "params": [
+    1.6628800000000001,
+    1.8354613861386138,
+    0.32431527216174183,
+    1.5636588868940753
+   ],
+   "halvings": 0,
+   "box": [
+    -1.9901859174423067,
+    -1.5926835591580963,
+    1.8226244867695793,
+    1.122036462092479
+   ],
+   "coverage": 0.155,
+   "ok": true,
+   "stats": {
+    "stop": 0.6,
+    "backtrack": 0.04,
+    "agree_models": 0.375,
+    "agree_readers": 0.129
+   }
+  },
+  "Grok4.7": {
+   "label": "Grok 4.7",
+   "family": "grok",
+   "map": "gumowski_mira",
+   "params": [
+    0.008,
+    0.05,
+    -0.78
+   ],
+   "halvings": 1,
+   "box": [
+    -10.879583888681857,
+    -8.476164676122053,
+    16.221964952076387,
+    8.547605943762521
+   ],
+   "coverage": 0.488,
+   "ok": true,
+   "stats": {
+    "stop": 0.1,
+    "backtrack": 0.03,
+    "agree_models": 0.37,
+    "agree_readers": 0.12
+   }
+  },
+  "MiMo2.6": {
+   "label": "MiMo v2.6 Pro",
+   "family": "mimo",
+   "map": "clifford",
+   "params": [
+    -1.3673333333333333,
+    1.5564356435643565,
+    1.05,
+    0.735
+   ],
+   "halvings": 0,
+   "box": [
+    -1.3649662279302146,
+    -1.201973951621859,
+    1.9556001049091105,
+    1.435606333676578
+   ],
+   "coverage": 0.465,
+   "ok": true,
+   "stats": {
+    "stop": 0.3,
+    "backtrack": 0.14,
+    "agree_models": 0.397,
+    "agree_readers": 0.139
+   }
+  },
+  "Qwen3.8": {
+   "label": "Qwen 3.8 Flash",
+   "family": "qwen",
+   "map": "icon",
+   "params": [
+    -2.499375,
+    5.0,
+    -1.9,
+    1.0030321782178218,
+    0.188,
+    5.0
+   ],
+   "halvings": 2,
+   "box": [
+    -0.6412449957214239,
+    -0.6763947897238529,
+    0.6863757632427983,
+    0.6647071675693066
+   ],
+   "coverage": 0.663,
+   "ok": true,
+   "stats": {
+    "stop": 0.45,
+    "backtrack": 0.55,
+    "agree_models": 0.346,
+    "agree_readers": 0.133
+   }
+  },
+  "Qwen3.7": {
+   "label": "Qwen 3.7 Flash",
+   "family": "qwen",
+   "map": "icon",
+   "params": [
+    1.53816,
+    -1.0,
+    0.1,
+    -0.8322999999999998,
+    0.12,
+    3.0
+   ],
+   "halvings": 0,
+   "box": [
+    -1.2648021367374747,
+    -1.085826114900205,
+    1.130277489487361,
+    1.251281217165036
+   ],
+   "coverage": 0.418,
+   "ok": true,
+   "stats": {
+    "stop": 0.125,
+    "backtrack": 0.608,
+    "agree_models": 0.3,
+    "agree_readers": 0.095
+   }
+  },
+  "Gemini3.8": {
+   "label": "Gemini 3.8 Flash",
+   "family": "gemini",
+   "map": "ikeda",
+   "params": [
+    0.9,
+    0.39845,
+    6.0
+   ],
+   "halvings": 0,
+   "box": [
+    -0.28402643375424186,
+    -1.9545877077303109,
+    1.5490260524440638,
+    0.7897485629515983
+   ],
+   "coverage": 0.393,
+   "ok": true,
+   "stats": {
+    "stop": 0.8,
+    "backtrack": 0.002,
+    "agree_models": 0.272,
+    "agree_readers": 0.086
+   }
+  },
+  "Haiku5.5": {
+   "label": "Claude Haiku 5.5",
+   "family": "haiku",
+   "map": "bedhead",
+   "params": [
+    0.6795671999999999,
+    0.7233491749174917
+   ],
+   "halvings": 0,
+   "box": [
+    -3.8696546085833865,
+    -4.244603010233857,
+    2.9604514915450664,
+    3.914623978135602
+   ],
+   "coverage": 0.509,
+   "ok": true,
+   "stats": {
+    "stop": 0.85,
+    "backtrack": 0.19,
+    "agree_models": 0.269,
+    "agree_readers": 0.083
+   }
+  },
+  "Luna": {
+   "label": "GPT-6 Luna",
+   "family": "gpt",
+   "map": "svensson",
+   "params": [
+    1.3579999999999999,
+    1.5623168316831684,
+    1.382625194401244,
+    -6.736307360861759
+   ],
+   "halvings": 0,
+   "box": [
+    -7.3763261917674825,
+    -2.2904796885835728,
+    7.527602312790984,
+    2.3450285530832646
+   ],
+   "coverage": 0.628,
+   "ok": true,
+   "stats": {
+    "stop": 0.1,
+    "backtrack": 0.32,
+    "agree_models": 0.306,
+    "agree_readers": 0.136
+   }
+  }
+ }
+}
