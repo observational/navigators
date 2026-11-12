@@ -25,8 +25,8 @@
 
 <section id="topics" class="page" hidden={!active}>
   <div class="col wide">
-    <h1>Twenty-nine topics, one ordering.</h1>
-    <p class="lede" id="tlede">The circle is Wikipedia’s topics, placed by how their pages link. Curves are moves between topics; bars show where agents (orange) and people (blue) go.</p>
+    <h1>Same topics as readers. Except people.</h1>
+    <p class="lede" id="tlede">Bars show where the first click lands, topic by topic: models in orange, people in blue. They mostly match; the gap is pages about people. Curves are every move the models made between topics.</p>
     <div class="ctl tctl"><span class="k">who</span><span id="tgrounds">{#each keys as k}<!-- svelte-ignore a11y_missing_attribute --><a role="button" tabindex="0" onkeydown={e => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), pick(k))} class="{k === 'readers' ? 'rd' : ''}{k === who ? ' on' : ''}" onclick={() => pick(k)}>{SHORT[k]}</a>{/each}</span></div>
     <div class="ctl tctl"><span class="k">start page</span><select id="tstart" aria-label="Start page for topic runs" value={start} onchange={pickStart}>{#each starts as [id, t]}<option value={id}>{t}</option>{/each}</select></div>
     <canvas id="tcv" bind:this={cv}></canvas>

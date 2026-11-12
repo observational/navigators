@@ -31,7 +31,7 @@
 <svelte:window onhashchange={onhash} />
 
 <header>
-  <div class="mark"><span class="wm">Navigators</span><span class="sub">where unprompted agents go, and where readers go</span></div>
+  <div class="mark"><span class="wm">Navigators</span><span class="sub">where AI models go when left alone, and where people go</span></div>
   <nav id="tabs">{#each TABS as t}<a href={'#' + t.id} class:on={current === t.id}>{t.label}</a>{/each}</nav>
 </header>
 

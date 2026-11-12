@@ -41,6 +41,9 @@
 .fv .chip{fill:var(--road)}
 .fv .chipEye{fill:var(--ground)}
 .fv .flow{fill:none;stroke:var(--road);stroke-width:1;opacity:.35}
+.fv .ln{fill:none;stroke:var(--road);stroke-width:2.5;stroke-linejoin:round}
+.fv .ideal{stroke:var(--dim);stroke-width:1.2;stroke-dasharray:4 4}
+.fv .lab.dimt{fill:var(--dim)}
 .fv .ppl{fill:var(--ice)}
 .fv .ppl.faint{opacity:.25}
 .fcard blockquote{margin:14px 0 0;padding-left:12px;border-left:2px solid var(--ember);font:italic 400 18px/1.3 var(--serif);color:var(--paper)}

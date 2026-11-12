@@ -1,247 +1,212 @@
 {
-  "title": "What we found.",
-  "lede": "Language models browsing Wikipedia with nothing to do.",
+  "title": "Left alone, different AIs make the same choices.",
+  "lede": "We gave AI models Wikipedia and no task, and compared every click with real readers.",
   "groups": [
     {
-      "id": "alone",
-      "title": "Agents alone",
-      "sub": "Separate runs. No agent ever saw another.",
+      "id": "alike",
+      "title": "1. Alike before they meet",
+      "sub": "Every run was separate. No model ever saw another.",
       "cards": [
         {
           "id": "ladder",
-          "headline": "Different models make the same choice.",
-          "line": "Shown the same page, two different models pick the same link four times as often as two people do.",
+          "headline": "A second model is nearly a rerun of the first.",
+          "line": "Shown the same page, two different models pick the same link 4 times as often as two people, and almost as often as one model asked twice.",
           "big": "4×",
           "viz": {
             "type": "dots",
             "unit": "chance that two picks match",
             "rows": [
-              {
-                "label": "two people",
-                "v": 0.1,
-                "who": "reader"
-              },
-              {
-                "label": "two different models",
-                "v": 0.42,
-                "who": "agent"
-              },
-              {
-                "label": "one model, twice",
-                "v": 0.56,
-                "who": "agent"
-              }
+              { "label": "two people", "v": 0.1, "who": "reader" },
+              { "label": "two different models", "v": 0.42, "who": "agent" },
+              { "label": "one model, asked twice", "v": 0.56, "who": "agent" }
             ]
           }
         },
         {
           "id": "voices",
-          "headline": "Many models, fewer than four voices.",
-          "line": "The models choose about as variedly as four people would.",
-          "big": "3.6",
+          "headline": "Adding models adds little.",
+          "line": "Ten models choose about as variedly as four independent people. Past seven, another model barely counts.",
           "viz": {
-            "type": "pictogram",
-            "n": 10,
-            "effective": 3.6,
-            "labels": [
-              "the models",
-              "worth about 4 people"
-            ]
+            "type": "curve",
+            "x_label": "models asked",
+            "y_label": "independent people they are worth",
+            "ideal_label": "if every model were independent",
+            "points": [1, 1.8, 2.1, 2.6, 2.7, 3.1, 3.4, 3.3, 3.4, 3.6]
           }
         },
         {
-          "id": "personas",
-          "headline": "A persona loosens the herd, a little.",
-          "line": "Asking a model to be an explorer spreads its choices. They still agree far more than people do.",
-          "viz": {
-            "type": "bars",
-            "unit": "chance that two different models pick the same link",
-            "rows": [
-              {
-                "label": "no persona",
-                "v": 0.44
-              },
-              {
-                "label": "assistant",
-                "v": 0.43
-              },
-              {
-                "label": "bored",
-                "v": 0.31
-              },
-              {
-                "label": "researcher",
-                "v": 0.28
-              },
-              {
-                "label": "explorer",
-                "v": 0.25
-              }
-            ],
-            "reference": {
-              "label": "two people",
-              "v": 0.1
-            }
-          }
-        },
-        {
-          "id": "top",
-          "headline": "They read the top of the page.",
-          "line": "Most first picks come from the first few links on a page.",
+          "id": "opening",
+          "headline": "They take what the article opens with.",
+          "line": "7 in 10 picks are among an article's first twenty links, even when we shuffle where the links appear on screen.",
           "big": "7 in 10",
           "viz": {
             "type": "share",
             "rows": [
-              {
-                "label": "of the links on a page",
-                "v": 0.11
-              },
-              {
-                "label": "of the models' first picks",
-                "v": 0.7
-              }
+              { "label": "of the links on a page", "v": 0.11 },
+              { "label": "of the models' picks", "v": 0.7 }
+            ]
+          }
+        },
+        {
+          "id": "broader",
+          "headline": "They climb to the bigger subject.",
+          "line": "Models click through to the broader topic nearly twice as often as readers. The most-linked page on offer was never chosen: 0 times in 1,083.",
+          "viz": {
+            "type": "ratio",
+            "unit": "clicks that go to the broader topic",
+            "rows": [
+              { "label": "readers", "v": 0.12, "who": "reader" },
+              { "label": "models", "v": 0.22, "who": "agent" }
             ]
           }
         },
         {
           "id": "people",
-          "headline": "They skip people.",
-          "line": "Models open links to people about a third as often as readers do.",
+          "headline": "They pass over people.",
+          "line": "On the first click, models open links to people about a third as often as readers do.",
           "viz": {
             "type": "ratio",
             "rows": [
-              {
-                "label": "readers",
-                "v": 1.0,
-                "who": "reader",
-                "text": "1×"
-              },
-              {
-                "label": "models",
-                "v": 0.38,
-                "who": "agent",
-                "text": "⅓×"
-              }
-            ]
-          }
-        },
-        {
-          "id": "loops",
-          "headline": "One sentence stops the pacing.",
-          "line": "Models pace between two pages. One sentence about steps nearly ends it.",
-          "quote": "You can take 15 steps through links.",
-          "viz": {
-            "type": "before_after",
-            "unit": "moves that go straight back",
-            "rows": [
-              {
-                "label": "without the sentence",
-                "v": 0.81
-              },
-              {
-                "label": "with it",
-                "v": 0.25
-              }
-            ]
-          }
-        },
-        {
-          "id": "stopping",
-          "headline": "Given nothing to do, many stop.",
-          "line": "Asked to be an assistant, models stop sooner. Explorers almost never do.",
-          "big": "7 in 10",
-          "big_caption": "first-step stops say no task was given",
-          "viz": {
-            "type": "bars",
-            "unit": "stop at the first step",
-            "rows": [
-              {
-                "label": "assistant",
-                "v": 0.225
-              },
-              {
-                "label": "no persona",
-                "v": 0.125
-              },
-              {
-                "label": "explorer",
-                "v": 0.013
-              },
-              {
-                "label": "researcher",
-                "v": 0.013
-              },
-              {
-                "label": "bored",
-                "v": 0.0
-              }
-            ]
-          }
-        },
-        {
-          "id": "canon",
-          "headline": "The one real attractor.",
-          "line": "Following links, agents spread out after the first click. Given a search box and a blank page, they keep landing on the same oddities.",
-          "big": "36 of 80",
-          "big_caption": "blank-page openings land on Wikipedia's \"Unusual articles\"",
-          "viz": {
-            "type": "dotgrid",
-            "n": 80,
-            "k": 36
-          }
-        },
-        {
-          "id": "history",
-          "headline": "A fake past changes their words, not their path.",
-          "line": "Shown a browsing history that was not theirs, models take up its phrasing but do not follow its route.",
-          "viz": {
-            "type": "bars",
-            "unit": "change when the history is planted",
-            "rows": [
-              {
-                "label": "repeat its words",
-                "v": 0.35
-              },
-              {
-                "label": "follow its route",
-                "v": 0.015
-              }
+              { "label": "readers", "v": 1.0, "who": "reader", "text": "1×" },
+              { "label": "models", "v": 0.38, "who": "agent", "text": "⅓×" }
             ]
           }
         }
       ]
     },
     {
-      "id": "together",
-      "title": "Agents together",
-      "sub": "Two agents, one shared working memory, the same start page.",
+      "id": "setup",
+      "title": "2. Their habits come from the setup",
+      "sub": "Change a sentence or the way they answer, and the behaviour changes with it.",
       "cards": [
         {
-          "id": "shared",
-          "headline": "Sharing a memory, they don't copy.",
-          "line": "Two agents with one memory take different links.",
-          "pending_rerun": true,
-          "chips": [
-            "fewer revisits",
-            "more pages covered"
-          ],
+          "id": "loops",
+          "headline": "One sentence cuts the pacing by two thirds.",
+          "line": "With no way to stop, models pace back and forth between two pages. Tell them how many steps they have and most of it goes.",
+          "quote": "You can take 15 steps through links.",
           "viz": {
             "type": "before_after",
-            "unit": "two DeepSeek agents pick the same first link",
+            "unit": "moves that go straight back",
             "rows": [
-              {
-                "label": "can't see each other",
-                "v": 0.55
-              },
-              {
-                "label": "share one memory",
-                "v": 0.1
-              }
+              { "label": "without the sentence", "v": 0.81 },
+              { "label": "with it", "v": 0.25 }
+            ]
+          }
+        },
+        {
+          "id": "tools",
+          "headline": "Change how they answer, and every run stops.",
+          "line": "The same models, acting through tools instead of a written reply, ended all 60 runs. Some began asking an absent user what they wanted.",
+          "quote": "Tell me what you'd like: a summary, specific facts…",
+          "viz": {
+            "type": "before_after",
+            "unit": "runs the model ends by itself",
+            "rows": [
+              { "label": "written reply", "v": 0.3333, "text": "20 of 60" },
+              { "label": "tools", "v": 1.0, "text": "60 of 60" }
+            ]
+          }
+        },
+        {
+          "id": "why",
+          "headline": "Why they stop: nobody asked.",
+          "line": "Six of eight models give the same reason nine times in ten. Claude Haiku and Qwen 3.7 stop because the page already says enough.",
+          "quote": "No specific destination or question was requested, so I’m stopping rather than choosing an arbitrary link.",
+          "viz": {
+            "type": "bars",
+            "unit": "immediate stops that say no task was given",
+            "rows": [
+              { "label": "Grok", "v": 1.0 },
+              { "label": "Gemini", "v": 0.97 },
+              { "label": "GPT-6 Luna", "v": 0.95 },
+              { "label": "Qwen 3.8", "v": 0.93 },
+              { "label": "MiMo", "v": 0.92 },
+              { "label": "DeepSeek", "v": 0.91 },
+              { "label": "Claude Haiku", "v": 0.26 },
+              { "label": "Qwen 3.7", "v": 0.22 }
+            ]
+          }
+        },
+        {
+          "id": "assistant",
+          "headline": "The default AI is already an assistant.",
+          "line": "Tell a model to be an assistant and its choices do not change. Tell it to explore and agreement nearly halves, yet stays more than twice people's.",
+          "viz": {
+            "type": "bars",
+            "unit": "chance that two different models pick the same link",
+            "rows": [
+              { "label": "no role given", "v": 0.44 },
+              { "label": "assistant", "v": 0.43 },
+              { "label": "bored", "v": 0.31 },
+              { "label": "researcher", "v": 0.28 },
+              { "label": "explorer", "v": 0.25 }
+            ],
+            "reference": { "label": "two people", "v": 0.1 }
+          }
+        },
+        {
+          "id": "quit",
+          "headline": "Assistants quit. Explorers never do.",
+          "line": "Call it an assistant and it stops at once more often: there is nobody to assist.",
+          "viz": {
+            "type": "bars",
+            "unit": "runs that stop at the first step",
+            "rows": [
+              { "label": "assistant", "v": 0.225 },
+              { "label": "no role given", "v": 0.125 },
+              { "label": "explorer", "v": 0.013 },
+              { "label": "researcher", "v": 0.013 },
+              { "label": "bored", "v": 0.0 }
+            ]
+          }
+        },
+        {
+          "id": "history",
+          "headline": "But a fake past does not steer them.",
+          "line": "Shown a browsing history that was not theirs, models borrow its wording. Not one move followed it to a planted page.",
+          "big": "0 of 1,710",
+          "big_caption": "moves went to a planted page"
+        }
+      ]
+    },
+    {
+      "id": "places",
+      "title": "3. No favourite places, until they can search",
+      "sub": "Where the runs end up.",
+      "cards": [
+        {
+          "id": "scatter",
+          "headline": "After the first click, they scatter.",
+          "line": "They agree on the first link, then drift apart. By the fifth click, two runs arrive at the same new page no more often than two random walkers.",
+          "viz": {
+            "type": "bars",
+            "unit": "two runs arrive at the same new page",
+            "rows": [
+              { "label": "second click", "v": 0.03, "text": "3 in 100" },
+              { "label": "fifth click", "v": 0.0012, "text": "1 in 1,000" },
+              { "label": "fifteenth click", "v": 0.0001, "text": "1 in 10,000" }
+            ]
+          }
+        },
+        {
+          "id": "canon",
+          "headline": "With a search box, they find the same curiosities.",
+          "line": "Starting from a blank page, nearly half the runs open on a page from Wikipedia's list of unusual articles. MiMo does it 16 times in 20. Grok never does.",
+          "big": "36 of 80",
+          "big_caption": "blank-page runs open on one of Wikipedia's \"unusual articles\"",
+          "viz": {
+            "type": "bars",
+            "unit": "first page opened, out of 80 runs",
+            "rows": [
+              { "label": "Antikythera mechanism", "v": 0.2375, "text": "19" },
+              { "label": "Voynich manuscript", "v": 0.15, "text": "12" },
+              { "label": "Cephalopod intelligence", "v": 0.0875, "text": "7" },
+              { "label": "Bioluminescence", "v": 0.05, "text": "4" },
+              { "label": "Deep-sea gigantism", "v": 0.05, "text": "4" }
             ]
           }
         }
       ]
     }
-  ],
-  "footer": "Methods, tests and limits are in the paper."
+  ]
 }

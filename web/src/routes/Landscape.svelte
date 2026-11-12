@@ -20,15 +20,13 @@
   let finds = $state.raw([]), starts = $state.raw([]);
 
   function setup() {
-    // four results that passed formal tests, told in words; numbers come from stats.json and facts.json
-    const ST = S.stats, LD = Object.fromEntries(ST.ladder.map(r => [r.key, r.v])), CN = ST.canon;
+    // the three claims of the Findings page, one line each; page titles come from stats.json
+    const CN = S.stats.canon;
     const cTitle = i => S.byId.has(CN.pages[i].id) ? S.nodes[S.byId.get(CN.pages[i].id)].t : '';
-    const nt = S.facts.models.all.step1_stop_reason.no_task;
     finds = [
-      { n: `${Math.round(LD.dmsc / LD.hh)}x`, t: 'two different models pick the same link far more often than two people do', kin: true },
-      { n: '1 line', t: 'One sentence breaks the two-page loops', x: 'Back-and-forth moves drop by more than half.' },
-      { n: `${CN.pages[0].families} of ${CN.families.length}`, t: 'From a blank page, models go to the same few oddities', canon: `${cTitle(0)}, ${cTitle(1)}.` },
-      { n: inN(nt), t: 'first-step stops say no task was given', x: 'They stop because nothing asked them to act.' },
+      { n: '4×', t: 'Two different models pick the same link four times as often as two people', x: 'They were never in contact: every run is separate.' },
+      { n: '1 line', t: 'One added sentence cuts their pacing between two pages by two thirds', x: 'Much of what looks like character comes from the setup.' },
+      { n: '36 of 80', t: 'From a blank page with a search box, nearly half open on the same few curiosities', canon: `${cTitle(0)} and ${cTitle(1)} lead. Following links, they scatter instead.` },
     ];
     starts = S.derived.starts.filter(([id]) => S.fh.starts.some(s => s.page_id === id));
   }
@@ -40,7 +38,7 @@
     if (k === 'all') return `<b>All eight models</b>`;
     const sr = m.step1_stop_reason, bo = m.blank_page_openings;
     let s = `<b>${esc(m.label)}</b>. `;
-    if (sr && sr.n_step1_stops && !sr.small_n) s += `${inN(sr.no_task)} of its first-step stops say no task was given. `;
+    if (sr && sr.n_step1_stops && !sr.small_n) s += sr.no_task >= .5 ? `When it stops at once, ${inN(sr.no_task)} times the reason is that nobody asked for anything. ` : `When it stops at once, ${inN(sr.page_sufficient)} times the reason is that the page already says enough. `;
     else if (bo && bo.top3 && bo.top3.length) s += `On a blank page it opens ${esc(bo.top3[0].page)}. `;
     if (m.quote) s += `<q>${esc(m.quote.text)}</q>`;
     return s;
@@ -92,11 +90,11 @@
 
 <section id="landscape" hidden={!active}>
   <aside id="side">
-    <h1>Where do agents go when nobody asks them anything?</h1>
+    <h1>Left alone, different AIs make the same choices.</h1>
     {#if ready}
-    <p class="setup" id="setup">Eight AI models wandered Wikipedia with no task, next to where readers click. Each trail is a separate run; no agent saw another.</p>
+    <p class="setup" id="setup">We gave eight AI models Wikipedia and no task. Each orange trail is one run on its own; blue is where human readers click.</p>
     <!-- svelte-ignore a11y_no_noninteractive_element_interactions, a11y_click_events_have_key_events, a11y_no_noninteractive_tabindex -->
-    <ol id="finds">{#each finds as h, i}<li tabindex="0" class:open={open[i]} onclick={e => { if (!e.target.closest('a')) toggleOpen(i); }} onkeydown={e => { if (e.key === 'Enter') toggleOpen(i); }}><span class="n" class:sm={h.n.length > 6}>{h.n}</span><span class="t">{h.t}</span><span class="x">{#if h.kin}<a href="#kin">See Kin</a>{:else if h.canon}{h.canon} <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions --><a class="act" onclick={e => { e.preventDefault(); toggleCanon(); }}>{canonOn ? 'Hide them' : 'Show them on the map'}</a>{:else}{h.x}{/if}</span></li>{/each}</ol>
+    <ol id="finds">{#each finds as h, i}<li tabindex="0" class:open={open[i]} onclick={e => { if (!e.target.closest('a')) toggleOpen(i); }} onkeydown={e => { if (e.key === 'Enter') toggleOpen(i); }}><span class="n" class:sm={h.n.length > 6}>{h.n}</span><span class="t">{h.t}</span><span class="x">{#if h.canon}{h.canon} <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions --><a class="act" onclick={e => { e.preventDefault(); toggleCanon(); }}>{canonOn ? 'Hide them' : 'Show them on the map'}</a>{:else}{h.x} <a href="#findings">See the findings</a>{/if}</span></li>{/each}</ol>
     <div class="ctls">
       <div class="ctl wrap"><span class="k">ground</span><span id="grounds">{#each GKEYS as k}<!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions --><a class:rd={k === 'readers'} class:sp={S.wells.models[k]?.sparse} class:on={cur === k} onclick={() => setGround(k)}>{SHORT[k]}</a>{/each}</span></div>
       <p id="mnote">{@html modelNote(cur)}</p>
@@ -110,7 +108,7 @@
       <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
       <div class="ctl"><span class="k">runs</span><a id="play" class="on" onclick={togglePlay}>{playing ? 'pause' : 'play'}</a><a id="overview" onclick={() => map?.overview()}>see the whole map</a></div>
       <div id="key">{@html keyHtml(ink)}</div>
-      <p class="fine" id="fine">Height shows where agents pile up: the deeper the well, the more visits. <a href="CREDITS.md">Credits</a></p>
+      <p class="fine" id="fine">Low ground is where more runs passed. It records traffic; nothing pulls a run downhill. <a href="CREDITS.md">Credits</a></p>
     </div>
     {/if}
   </aside>

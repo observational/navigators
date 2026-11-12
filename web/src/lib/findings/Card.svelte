@@ -1,13 +1,12 @@
 <script>
   import Dots from '../charts/findings/Dots.svelte';
-  import Pictogram from '../charts/findings/Pictogram.svelte';
   import Bars from '../charts/findings/Bars.svelte';
   import Share from '../charts/findings/Share.svelte';
   import Ratio from '../charts/findings/Ratio.svelte';
   import BeforeAfter from '../charts/findings/BeforeAfter.svelte';
-  import Dotgrid from '../charts/findings/Dotgrid.svelte';
+  import Curve from '../charts/findings/Curve.svelte';
   let { c } = $props();
-  const VIZ = { dots: Dots, pictogram: Pictogram, bars: Bars, share: Share, ratio: Ratio, before_after: BeforeAfter, dotgrid: Dotgrid };
+  const VIZ = { dots: Dots, bars: Bars, share: Share, ratio: Ratio, before_after: BeforeAfter, curve: Curve };
   // svelte-ignore state_referenced_locally
   const Viz = VIZ[c.viz?.type];
 </script>

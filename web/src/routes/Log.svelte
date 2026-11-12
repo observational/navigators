@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { showStart } from '../lib/map/bridge.js';
   import { S, FAMS, load, getJSON } from '../lib/data.js';
-  import { SH, TYPES, GROUPS, DROP, JARGON, trim, FNAME, hash } from '../lib/log/model.js';
+  import { SH, TYPES, GROUPS, DROP, JARGON, LEAD, trim, FNAME, hash } from '../lib/log/model.js';
   let { active, onready } = $props();
 
   const col = 'var(--road)';
@@ -28,7 +28,7 @@
     const ev = raw.filter(e => !DROP.has(e.type) && e.quote && !JARGON.test(e.quote)).map(e => ({ ...e, quote: trim(e.quote) }));
     mappedIds = new Set(S.derived.starts.map(s => s[0]).filter(id => S.fh.starts.some(s => s.page_id === id)));
     events = ev;
-    ordered = ev.map(e => [hash(e.id), e]).sort((a, b) => a[0] - b[0]).map(r => r[1]);
+    ordered = ev.map(e => [hash(e.id), e]).sort((a, b) => LEAD.has(b[1].type) - LEAD.has(a[1].type) || a[0] - b[0]).map(r => r[1]);
     ready = true;
     await Promise.resolve();
     onready();
@@ -42,7 +42,7 @@
 <section id="log" class="page" hidden={!active}>
   <div class="col">
     <h1>Field log</h1>
-    <p class="lede" id="loglede">{ready ? 'Real quotes from agent runs, in the models’ own words.' : ''}</p>
+    <p class="lede" id="loglede">{ready ? 'What the models wrote while choosing. The first ones wonder whether they are being tested.' : ''}</p>
     <div id="logfilters">
       {#each GROUPS as [g, lab]}
         <div class="ctl"><span class="k">{lab}</span><span class="opts">

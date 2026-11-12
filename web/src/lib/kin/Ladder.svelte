@@ -20,7 +20,7 @@
     <text class="lab{r.mark ? ' em' : ''}" x={LW} y={y + 5} text-anchor="end" font-style="italic">{r.label}</text>
     <line x1={xs(0)} x2={xs(r.v)} y1={y} y2={y} stroke={col} stroke-width={r.mark ? 2 : 1} stroke-dasharray={r.who === 'readers' ? '4 3' : null} opacity={r.mark ? 1 : .6}><title>{r.label}: {p(r.v)}%</title></line>
     <circle cx={xs(r.v)} cy={y} r={r.mark ? 5.5 : 4} fill={r.who === 'readers' ? 'var(--ground)' : col} stroke={col} stroke-width="1.5"><title>{r.label}: {p(r.v)}%</title></circle>
-    {#if r.mark}<text class="val" x={xs(r.v) + 12} y={y + 4}>{p(r.v)}%</text>{/if}
+    <text class="val" x={xs(r.v) + 12} y={y + 4}>{p(r.v)}%</text>
   {/each}
   <text class="ax" x={x1} y={top + L.length * RH + 24} text-anchor="end">SAME LINK, SAME PAGE</text>
 </svg>

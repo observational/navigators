@@ -52,7 +52,8 @@ export function createCircle(cv, TT, TP, isActive) {
     });
     ctx.setLineDash([]);
     // bars and names
-    const mA = TT.mass[who === 'readers' ? 'agents' : who] || {}, mR = TT.mass.readers || {}, big = Math.max(...Object.values(mA), ...Object.values(mR));
+    // both are first clicks only, so the bars compare like with like
+    const mA = TT.first[who === 'readers' ? 'agents' : who] || {}, mR = TT.mass.readers || {}, big = Math.max(...Object.values(mA), ...Object.values(mR));
     const BL = W < 600 ? 26 : 64, nm = s => W < 600 && s.length > 11 ? s.slice(0, 10) + '…' : s;
     TT.order.forEach(id => {
       const n = pos.get('L' + id), c = Math.cos(n.a), s = Math.sin(n.a), r0 = R + 8;

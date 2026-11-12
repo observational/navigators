@@ -1,6 +1,6 @@
 # Navigators
 
-Where do language-model agents go on Wikipedia when nobody asks them anything? This site maps thousands of task-free
+Left alone on Wikipedia with no task, different AI models make the same choices. This site maps thousands of task-free
 agent runs next to where human readers click from the same pages.
 
 **Site:** https://observational.github.io/navigators/
