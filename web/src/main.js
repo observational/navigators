@@ -3,6 +3,7 @@ import './styles/fonts.css';
 import './styles/global.css';
 import './styles/pages.css';
 import './styles/findings.css';
+import './styles/hypotheses.css';
 import App from './App.svelte';
 
 mount(App, { target: document.getElementById('app') });

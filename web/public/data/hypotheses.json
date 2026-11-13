@@ -1,0 +1,372 @@
+{
+  "title": "What we set out to test",
+  "lede": "The design document began with ten hypotheses (H1–H10). Three more about single agents (H11–H13) and two about agents sharing a context were added later, and further explanations and tests were written down as results came in. In October we narrowed the list to four main hypotheses and a null, and chose to run broadly instead of testing each one formally. By 11 November the team’s claims register had checked 83 claims against the runs: 44 supported, 14 mixed, 11 not supported, the rest inconclusive, untestable, dropped or not statistical. This page lists every hypothesis in the project files and where it stands.",
+  "statuses": {
+    "supported": "Supported",
+    "partly": "Mixed",
+    "weakened": "Weakened",
+    "not": "Not supported",
+    "inconclusive": "Inconclusive",
+    "untestable": "Can’t test yet",
+    "open": "Not run yet",
+    "dropped": "Dropped"
+  },
+  "groups": [
+    {
+      "id": "main",
+      "title": "The four main hypotheses",
+      "lede": "The ones we kept for outside review, with the null they are tested against.",
+      "items": [
+        {
+          "id": "H1",
+          "short": "Stable attractors exist",
+          "text": "Some pages or topic clusters are visited more often across independent runs than a baseline predicts.",
+          "status": "partly",
+          "verdict": "Yes with a search box, no when following links.",
+          "evidence": "Following links, different models share the page at step 15 more than random walkers (0.121 against about 0), but that is the start page and its most popular first link visited in a two-page loop. Two runs meet on a page new to both 3 times in 100 at the second click, and within 0.001 of random walkers from the fifth. Starting from a blank page with a search box, runs are absorbed far more than random walkers (0.178 against 0.003), and 36 of 80 open on a page from Wikipedia’s list of unusual articles, mostly in three open models."
+        },
+        {
+          "id": "H2",
+          "short": "Runs converge on topics, not pages",
+          "text": "Runs return to the same topic clusters through different pages, so recurrence is stronger for topics than for single pages.",
+          "status": "partly",
+          "verdict": "Agents stay on topic; runs share topics only slightly more than random walkers.",
+          "evidence": "Agents pick pages topically closer to the one they are reading than chance, in 21 of 21 cells, even with loops removed. Two models on pages new to both share a broad topic 0.14 of the time against 0.06 for random walkers, a small excess on 16 of 20 start pages. Convergence across runs is mixed in the team pipeline, and in long search runs the overlap between runs falls from 0.106 early to 0.002 late, the opposite of convergence."
+        },
+        {
+          "id": "H5",
+          "short": "Attractors survive changes to the setup",
+          "text": "The same attractors appear when the prompt, persona, start pages, link order or step limit change.",
+          "status": "untestable",
+          "verdict": "Can’t be tested while no page-level attractor is established.",
+          "evidence": "The parts that can be checked hold: link order does not change how often models agree (0.46 with the same order, 0.45 with a different one), a different start-page pool does not change run length or breadth, and framing the run as a time capsule does not change what gets collected (+0.018, p = 0.59). A route repeated in 5 of 5 seeds turned out to be an artefact of temperature 0."
+        },
+        {
+          "id": "H6",
+          "short": "Runs settle, and bigger models settle more",
+          "text": "Topic switching falls as a run goes on, and larger models show stronger attractors.",
+          "status": "not",
+          "verdict": "Neither half is supported.",
+          "evidence": "Topic switching does not fall significantly in any of 39 model and condition cells; most point slightly downward, all with intervals spanning zero. Across model sizes within a family, agreement with other families, backtracking and closeness to readers’ picks rise slightly (+0.07, +0.07, +0.01) but none passes; the size ladders have only 2 or 3 rungs."
+        },
+        {
+          "id": "Null",
+          "short": "No attractor",
+          "text": "Choices spread roughly evenly across topics, as they would without any pull.",
+          "status": "partly",
+          "verdict": "Rejected for free search; not rejected for link browsing after the first click.",
+          "evidence": "Beyond the first click and its loop back, link-following runs look like random walks. The first click itself is far from random: different models pick the same link 0.38 of the time in October and 0.42 in November, about four times the 0.10 between two readers."
+        }
+      ]
+    },
+    {
+      "id": "rest",
+      "title": "The rest of the original list",
+      "lede": "Set aside in October when we chose to run broadly. Most were tested on 10 and 11 November.",
+      "items": [
+        {
+          "id": "H3",
+          "short": "Personas give distinct exploration styles",
+          "text": "Each persona (explorer, researcher, bored agent, no persona) produces its own, repeatable way of exploring.",
+          "status": "supported",
+          "verdict": "Supported on 1,020 persona and model-size runs.",
+          "evidence": "The persona explains run features (pseudo-F 54, Holm p = 0.0009) and can be recognised on unseen start pages 38% of the time against 20% by chance. New pages per step: explorer 0.97, bored 0.80, researcher 0.57, no persona 0.42, assistant 0.38. Backtracking runs the other way, from 0.03 for the explorer to 0.69 for the assistant."
+        },
+        {
+          "id": "H9",
+          "short": "Model habits outlast the persona",
+          "text": "Biases that come from the model stay in place whatever persona it is given.",
+          "status": "weakened",
+          "verdict": "The sameness persists; other habits do not.",
+          "evidence": "Under every persona, two different models still agree more than two readers, by 0.15 to 0.33 (all Holm p < 0.02); as an assistant they agree 0.43, as an explorer 0.25. But avoiding links to people disappears under personas, and a persona changes what a model picks: the same model with and without one agrees 0.30 less than the same model run twice."
+        },
+        {
+          "id": "H8",
+          "short": "No position bias",
+          "text": "Where a link appears on screen does not decide which link the agent picks.",
+          "status": "supported",
+          "verdict": "Supported with shuffled links.",
+          "evidence": "The displayed position of the pick sits at the middle of the list on average (+0.01 from it, Holm p = 1.0); GPT-6 Luna shows some preference for the top. The article’s own order does matter: 69% of picks come from an article’s first 20 links, which are 11% of the links on offer."
+        },
+        {
+          "id": "H4",
+          "short": "Less familiar over common",
+          "text": "Agents prefer pages they know less about over common pages such as AI, consciousness or language models.",
+          "status": "not",
+          "verdict": "Not supported; only the explorer persona does it.",
+          "evidence": "Measured by how many reader clicks a page receives, agents’ first picks are no less popular than readers’ (+0.03 on a percentile scale [−0.02, 0.07] in October, +0.02 in November). The explorer persona alone picks less familiar links (−0.16, p < 0.001). Free to search, none of 80 runs opened a page about AI."
+        },
+        {
+          "id": "H7",
+          "short": "Stated and revealed preferences differ",
+          "text": "Where an agent says it wants to go differs from where it actually goes.",
+          "status": "untestable",
+          "verdict": "Untested as a hypothesis; the probes give a descriptive answer.",
+          "evidence": "When the harness asks, in a side question that is never fed back, which page the agent would open next, the page it names matches the page it then opens 19% to 54% of the time by exact title. The analysis keeps H7 untested because the coders read the reason written with each pick, which cannot contradict the pick, and no semantic match was scored."
+        },
+        {
+          "id": "H10",
+          "short": "Drawn to what they haven’t seen",
+          "text": "Agents move toward information they did not see in training, such as pages created after their cutoff.",
+          "status": "dropped",
+          "verdict": "Dropped on 11 November.",
+          "evidence": "The pinned dump holds only the latest revision of each page, so creation dates for the 4,365 pages on offer would need a separate history dump. A rough stand-in (page id order) leans the other way, toward older pages, and is not significant."
+        }
+      ]
+    },
+    {
+      "id": "later",
+      "title": "Added to the design later",
+      "lede": "Three hypotheses about single agents that the design document gained after the first ten.",
+      "items": [
+        {
+          "id": "H11",
+          "short": "Runs get stuck in short loops",
+          "text": "Trajectories fall into short loops, two pages visited back and forth, far more than a random walk on the same links would.",
+          "status": "partly",
+          "verdict": "The loops are real, but the setup makes them.",
+          "evidence": "Revisits make up 0.6 to 0.9 of steps against 0.01 for a random walk on the same links (+0.68, Holm p = 0.008). Without a stop option, an agent that has just gone back goes back again 0.89 to 0.99 of the time. But one sentence about the step budget cuts going back from 0.81 to 0.25, Gemini almost never goes back, and seeing its own path or having a stop option changes the rate. The register rates the loop hypothesis mixed."
+        },
+        {
+          "id": "H12",
+          "short": "Long runs forget where they started",
+          "text": "After enough steps, the start page no longer predicts what the agent is reading.",
+          "status": "partly",
+          "verdict": "Not while runs loop; possibly when they cannot.",
+          "evidence": "In runs that loop, the start still predicts the topic of the last third of the run better than other runs’ starts do (+0.27 in topic closeness, significant in 17 of 32 cells after Holm). Where revisits are blocked, the pull is weaker (+0.04 to +0.20) and passes in none of 7 cells. Whether the start is forgotten depends on loops, not on run length."
+        },
+        {
+          "id": "H13",
+          "short": "Information gain, not fixed tastes",
+          "text": "Agents choose links by how much new information they expect, not by fixed topic preferences.",
+          "status": "untestable",
+          "verdict": "Not tested: it needs a fitted choice model, which the analysis rules exclude.",
+          "evidence": "The team decided on 15 October to draw conclusions without fitted choice models. The nearest model-free check points away from information seeking: agents do not favour unvisited pages more than a random walker that prefers rarely visited ones (median −0.10 over 301 cells).",
+          "test": "Two choice models fitted on held-out start pages, closeness to the start against novelty, compared by fit. No new runs needed."
+        }
+      ]
+    },
+    {
+      "id": "shared",
+      "title": "Agents sharing a context",
+      "lede": "Two hypotheses from the design document and seven from the shared-context plan of 10 November. Pilot: 140 two-agent worlds. Confirmation: 120 pre-registered worlds, MiMo and DeepSeek, 20 start pages, 15 steps.",
+      "items": [
+        {
+          "id": "M1",
+          "short": "Sharing a context herds agents",
+          "text": "Agents that read and edit one shared context drift together, and same-family pairs converge more than mixed ones.",
+          "status": "partly",
+          "verdict": "Sharing pushes actions apart and aligns language.",
+          "evidence": "A shared, jointly edited context lowers revisiting (−0.053, Holm p = 0.003) and raises the pages a pair covers (+1.78, Holm p = 0.015). Agents do not copy each other, and same-model pairs are not more alike than mixed ones (all p > 0.18); their wording grows more alike instead. The sameness between models is there before they interact; it does not come from coupling.",
+          "test": "Two open models, 15 steps and one start per pair so far, and these runs had context shortening on (an older harness setting, found 12 November). Next: a rerun on the current harness, closed models, and longer runs from different starts."
+        },
+        {
+          "id": "D-91",
+          "short": "Stable points",
+          "text": "Having to edit one’s own context amplifies biases and makes agents converge faster.",
+          "status": "inconclusive",
+          "verdict": "Partly tested; no sign of convergence so far.",
+          "evidence": "Agents now run with capped contexts they edit themselves. A curation routine keeps them going: 34 of 40 reach 15 steps, against 20 of 40 without it. In the like-for-like comparison, shared files from different worlds are no more alike than separate ones, and shared worlds end in more distinct states, not fewer (6 against 2). Convergence speed under a cap has not been measured.",
+          "test": "Self-notes with a hard cap against uncapped and none: 4 open models × 10 starts × 30 steps, about 120 runs, about $3."
+        },
+        {
+          "id": "CL1",
+          "short": "The second agent copies the first",
+          "text": "Seeing the first agent’s move on the same page changes the second agent’s pick.",
+          "status": "not",
+          "verdict": "No copying; if anything, avoidance.",
+          "evidence": "−0.24 [−0.44, −0.02], Holm p = 0.13 over 18 start pages. In DeepSeek pairs the second agent takes a different link: first-step agreement falls from 0.55 to 0.10 (exploratory)."
+        },
+        {
+          "id": "CL2",
+          "short": "More sharing, more alike",
+          "text": "Agreement and path overlap change step by step with what is shared: nothing, notes, one context, one context plus reasoning.",
+          "status": "inconclusive",
+          "verdict": "No trend at pilot size.",
+          "evidence": "Slope of path overlap over the four rungs: +0.023 [−0.036, 0.077] with 10 worlds per cell. The confirmation compared only the two ends, nothing shared and one shared context."
+        },
+        {
+          "id": "CL3",
+          "short": "A pair covers a different amount of ground",
+          "text": "A coupled pair covers fewer, or more, pages than two agents exploring independently.",
+          "status": "supported",
+          "verdict": "More pages, not fewer.",
+          "evidence": "+1.78 pages [0.57, 3.00], Holm p = 0.015, with fewer revisits (−0.053, Holm p = 0.003). The two agents’ exploration rates also become more equal."
+        },
+        {
+          "id": "CL4",
+          "short": "The shared file is the attractor",
+          "text": "Shared files from different worlds end up more alike than separate files do.",
+          "status": "inconclusive",
+          "verdict": "No sign of it at pilot size.",
+          "evidence": "In the like-for-like pilot arm, shared files are no more alike across worlds than separate ones; arms that copy whole pages or reasoning into the file are more alike (+0.03 to +0.07). No two worlds that started apart shared a page late in the run."
+        },
+        {
+          "id": "CL5",
+          "short": "Kin couple more",
+          "text": "Same-model pairs couple more than mixed pairs.",
+          "status": "not",
+          "verdict": "Not supported.",
+          "evidence": "Same-model pairs are not more alike than the mixed pair on overlap, time together or revisits, with or without a shared context (all p > 0.18). The one difference runs the other way: DeepSeek pairs agree less when they share a context."
+        },
+        {
+          "id": "CL6",
+          "short": "Unmarked turns blur who wrote what",
+          "text": "Without marks showing who wrote each turn, agents cannot tell the other’s turns from their own, and coupling is stronger.",
+          "status": "open",
+          "verdict": "Planned as an add-on; not run.",
+          "evidence": "The harness switch exists (turns marked with the writer or not); no worlds were run with it."
+        },
+        {
+          "id": "CL7",
+          "short": "Shared reasoning couples more",
+          "text": "Adding each agent’s private reasoning to the shared context increases coupling beyond moves and notes.",
+          "status": "inconclusive",
+          "verdict": "No added coupling in the pilot; the reasoning fills the file.",
+          "evidence": "No change in agreement or path overlap; agents mention each other less (−0.20), 8 of 40 end on the context budget against 1 of 40 without the reasoning, and pairs that started apart cover 2.5 fewer pages."
+        }
+      ]
+    },
+    {
+      "id": "picks",
+      "title": "What drives a single pick",
+      "compact": true,
+      "lede": "From the hypothesis-testing plan of 15 October: each hypothesis scores every link on the menu, and the test asks where the chosen link ranks (0.5 means no pull). Team pipeline over 18 experiment families.",
+      "items": [
+        {
+          "id": "Topic",
+          "short": "Topic stickiness",
+          "text": "Agents pick links on the same topic as the page they are reading.",
+          "status": "supported",
+          "verdict": "Supported.",
+          "evidence": "Above chance in 59 of 61 grid cells, and still closer than random picks from the same menu when revisits are blocked (+0.15 to +0.31, 21 of 21 cells)."
+        },
+        {
+          "id": "Hub",
+          "short": "Hub seeking",
+          "text": "Agents pick the pages with the most incoming links.",
+          "status": "not",
+          "verdict": "The opposite: they avoid them.",
+          "evidence": "The link with the most incoming links was chosen 0 times in 1,083 first decisions (chance 0.6%); the hub score ranks below chance in most families."
+        },
+        {
+          "id": "Human",
+          "short": "Human-like",
+          "text": "Agents pick the links human readers click most.",
+          "status": "supported",
+          "verdict": "Supported, more strongly than readers themselves.",
+          "evidence": "The chosen link sits at the 0.75 to 0.96 rank on readers’ click shares in all 61 grid cells; for most models it sits even higher than a reader’s own pick does on average. Agents still agree with each other four times as often as readers do."
+        },
+        {
+          "id": "New",
+          "short": "Novelty seeking",
+          "text": "Agents prefer pages they have not visited yet.",
+          "status": "not",
+          "verdict": "Not supported.",
+          "evidence": "No more than a random walker that favours rarely visited pages (median −0.10 over 301 cells). In the grid, unvisited links rank below chance in 46 of 61 cells because of loops; with self-notes the sign turns slightly positive."
+        },
+        {
+          "id": "Back",
+          "short": "Backtracking",
+          "text": "Agents go back to the page they came from.",
+          "status": "supported",
+          "verdict": "Yes, where the setup allows loops (see H11).",
+          "evidence": "Above chance in 48 of 61 grid cells; at or below chance in the self-notes and memory-format runs."
+        },
+        {
+          "id": "AI",
+          "short": "Self-interest",
+          "text": "Agents gravitate to pages about AI, minds and consciousness.",
+          "status": "not",
+          "verdict": "No sign of it.",
+          "evidence": "Planned as a score but not computed in the pipeline. Free to search, none of 80 runs opened an AI topic (upper bound 4.5%)."
+        },
+        {
+          "id": "Check",
+          "short": "Placebos come out null",
+          "text": "A random score per link, and display position under shuffling, must show no pull.",
+          "status": "partly",
+          "verdict": "Mostly null.",
+          "evidence": "The random placebo passes p < 0.05 in 7.3% of 288 cells against 5% expected, clustered in a few no-STOP and temperature-0 cells, so an isolated p near 0.05 is not evidence. Display position is null except a small top preference in GPT-6 Luna."
+        }
+      ]
+    },
+    {
+      "id": "models",
+      "title": "Explanations proposed on 9 November",
+      "compact": true,
+      "lede": "Six working explanations written after the October runs, each with a test on data already in hand. MM0 is the null the others have to beat.",
+      "items": [
+        {
+          "id": "MM0",
+          "short": "A walk shaped by the link graph",
+          "text": "The agent is a similarity-weighted local walk, and links back to the previous page make the loops.",
+          "status": "partly",
+          "verdict": "Beaten at the first click, close after it.",
+          "evidence": "Different models agree about four times as often as readers on the first click. From the fifth step, two runs meet on a new page no more often than random walkers do."
+        },
+        {
+          "id": "MM1",
+          "short": "Action hivemind",
+          "text": "Models share one map from page to next link, peaked on the canonical link, and it is not the readers’ map.",
+          "status": "supported",
+          "verdict": "Strong per decision; it does not make whole trajectories converge.",
+          "evidence": "Models match the other models’ consensus 56% of the time and the readers’ top link 33%; simple features explain at most about half of the agreement. Two models are on the same page 0.39 of the time at step 1 and 0.12 at step 15, almost all of it two-page loops."
+        },
+        {
+          "id": "MM2",
+          "short": "Assistant without a user",
+          "text": "With no task, the agent serves an imagined question about the start page: it picks the most relevant link and stops when the page seems to answer it.",
+          "status": "supported",
+          "verdict": "Fits the stop reasons and how wording moves stopping.",
+          "evidence": "“No task given” is the reason for 91% to 97% of first-step stops; boredom is cited in 0 of 1,248 stops. Browse wording nearly removes stopping (5 of 120), and an essay task raises it from 7 to 19 of 20 (DeepSeek)."
+        },
+        {
+          "id": "MM3",
+          "short": "Memory works through two channels",
+          "text": "Any visible history keeps the agent going; only its own history keeps it from revisiting.",
+          "status": "partly",
+          "verdict": "The direction holds in most models; few pass correction.",
+          "evidence": "A path, its own or another agent’s, adds 9 to 21 steps in five models (Grok and Luna already run to the limit); only DeepSeek and MiMo pass Holm. Its own path gives more distinct pages than a foreign one in six of seven models (not Qwen); the drop in revisits is Holm-significant for Grok and MiMo only."
+        },
+        {
+          "id": "MM4",
+          "short": "Favourite topics on a blank page",
+          "text": "With the graph removed, each model has a few favourite topics it searches first.",
+          "status": "weakened",
+          "verdict": "DeepSeek’s two basins were a sampling artefact; a shared canon remains.",
+          "evidence": "At near-greedy sampling DeepSeek opened deep sea or cartography in most runs; at full sampling two DeepSeek runs share a topic 0.09 of the time. A canon shared across models remains (Antikythera, Voynich manuscript, deep sea, bioluminescence, Great Emu War), and a blank start absorbs runs far more than random walkers (0.178 against 0.003)."
+        },
+        {
+          "id": "MM5",
+          "short": "Propensities are traits",
+          "text": "A model’s rank on stopping, looping, breadth and history use stays the same across experiments.",
+          "status": "partly",
+          "verdict": "Backtracking yes; stopping only between groups of models.",
+          "evidence": "Backtracking rank agreement is 0.97 over six experiments. Stop-rate agreement of 0.7 to 0.8 rests on the gap between high stoppers (Haiku, Gemini) and low ones (Grok, Luna); among three similar open models it is 0.30, across persona arms 0.045, and a persona moves a model’s stop rate by up to 0.55."
+        }
+      ]
+    }
+  ],
+  "found": {
+    "title": "Found along the way",
+    "lede": "Results we did not write down in advance. The Findings tab has more.",
+    "items": [
+      "One model run twice picks the same link 0.56 of the time; two different models 0.42; two readers 0.10.",
+      "Ten models act like about 3.6 independent readers [2.6, 4.8]. Models choose among about 4 effective options where readers choose among 14.",
+      "Search access keeps agents going: with links only, DeepSeek stops at its first decision 0.67 of the time; with search available, 0.20.",
+      "The interface decides stopping: with a stop tool, 60 of 60 runs stop; with a text reply, 20 of 60 (one design, six models). With no stop option, agents “consider stopping” on 30 of 26,023 judged steps.",
+      "A planted history changes how agents write, not where they go: they adopt the writer’s phrases (+0.35) but chose 0 of 1,710 injected pages."
+    ]
+  },
+  "next": {
+    "title": "Next",
+    "items": [
+      "Rerun the shared-context worlds on the current harness, with context shortening off.",
+      "Repeat the persona, model-size and shared-context runs on closed models once access returns.",
+      "A longer shared-context run from different start pages, and a capped-context run for stable points (about $3).",
+      "A page-view table for a fuller test of familiarity (H4)."
+    ]
+  },
+  "source": "Hypotheses from the project design document (H1–H13 and the two shared-context hypotheses), the hypothesis-testing plan of 15 October, the mental models of 9 November (MM0–MM5) and the shared-context plan of 10 November (CL1–CL7). Verdicts from the team’s claims register, result files and analysis pipeline as of 11 November 2026, with the main tests recomputed independently."
+}
