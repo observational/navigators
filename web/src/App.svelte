@@ -6,6 +6,7 @@
   import Kin from './routes/Kin.svelte';
   import Log from './routes/Log.svelte';
   import Findings from './routes/Findings.svelte';
+  import Hypotheses from './routes/Hypotheses.svelte';
 
   const TABS = [
     { id: 'landscape', label: 'Landscape', C: Landscape },
@@ -13,6 +14,7 @@
     { id: 'kin', label: 'Kin', C: Kin },
     { id: 'log', label: 'Field log', C: Log },
     { id: 'findings', label: 'Findings', C: Findings },
+    { id: 'hypotheses', label: 'Hypotheses', C: Hypotheses },
   ];
   const IDS = TABS.map(t => t.id);
   const read = () => { const h = location.hash.replace('#', ''); return IDS.includes(h) && h !== 'landscape' ? h : 'landscape'; };

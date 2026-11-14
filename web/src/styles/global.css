@@ -130,7 +130,7 @@ h2{font:500 26px/1.15 var(--serif);margin:64px 0 8px}
   :root{--side:100%}
   header{padding:12px 16px;flex-direction:column;gap:6px;background:linear-gradient(var(--ground) 70%,rgba(20,17,13,0))}
   .wm{font-size:22px}.sub{display:none}
-  nav a{margin:0 14px 0 0}
+  nav a{margin:0 14px 0 0;display:inline-block;white-space:nowrap}
   #side{top:auto;bottom:0;height:46vh;padding:14px 16px 16px;background:var(--ground);border-top:1px solid var(--rule)}
   #side h1{font-size:23px;margin-right:0}.setup,#finds,.ctls{margin-right:0}
   #side{height:42vh}

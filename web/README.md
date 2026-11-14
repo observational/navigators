@@ -10,8 +10,8 @@ Static single-page app, built into plain files. No server code, no external requ
 ## Layout
 - `index.html`, `vite.config.js` (base './')
 - `src/main.js` mounts `App.svelte` and imports the global CSS
-- `src/App.svelte` header, hash router (#topics, #kin, #log, #findings; map at the root), `window.__ready`
-- `src/routes/` one component per tab: Landscape, Topics, Kin, Log, Findings
+- `src/App.svelte` header, hash router (#topics, #kin, #log, #findings, #hypotheses; map at the root), `window.__ready`
+- `src/routes/` one component per tab: Landscape, Topics, Kin, Log, Findings, Hypotheses
 - `src/lib/data.js` shared loader (`load()`, `S`, `getJSON(name)`) and helpers
 - `src/styles/` global.css (tokens, shell, landscape), pages.css, findings.css
 - `public/` copied as-is: `data/*.json`, `fonts/` (with licences), `CREDITS.md`, `THIRD_PARTY.md`, `THREE_LICENSE.txt`
@@ -38,6 +38,7 @@ Tabs mount on first visit and then stay mounted (state is kept, as on the old si
 | topic_tree.json, topic_paths.json | topic dendrogram; run paths reduced to topic sequences | Topics |
 | events.json | 2,213 field-log events (verbatim quotes with labels, at most 150 per type) | Field log |
 | findings_public.json | the Findings page: groups, cards, chart values | Findings |
+| hypotheses.json | the Hypotheses page: groups of hypotheses (main four and the null, rest of H1–H10, H11–H13, shared context, link-level scores, the 9 Nov explanations), each with a status key from `statuses`, verdict, evidence and optionally the run that would test it; `compact: true` renders a group with smaller rows | Hypotheses |
 
 ## How the terrain is computed
 In the browser, from `nodes.json` and `derived.json`. For the chosen ground (all agents, one of eight models, or readers) each page's visit count is turned into `log(1 + visits)` (readers: `log(1 + clicks/50)`) and put on a 160 x 160 grid over the 0..1000 layout, blurred with a Gaussian of sigma 2.6 cells, then converted to height `-log(r + 0.02 max)` and scaled to 0..1 (0 = deepest well, 1 = empty rim). A single model's ground is its own field blended with the all-agents field by the shrinkage weight in `wells_shrunk.json` (models with few runs lean on the pooled field). Height is not a loss: low ground means many arrivals. The terrain is drawn with one WebGL shader (contour and hatch lines); runs animate along their page paths.
