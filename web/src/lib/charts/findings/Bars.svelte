@@ -20,7 +20,7 @@
     {@const y = top + i * rh}
     {@const w = Math.max(r.v * s, 2)}
     <text class="lab" x="0" y={y + 10}>{r.label}</text>
-    <rect class="bar {colors ? colors[i] : 'agent'}" x={left} y={y + 16} width={w} height="8" rx="2"/>
+    <rect class="bar {colors ? colors[i] : r.who === 'dim' ? 'dimf' : 'agent'}" x={left} y={y + 16} width={w} height="8" rx="2"/>
     <text class="val" x={w + 8} y={y + 24}>{r.text ?? pct(r.v)}</text>
   {/each}
   {#if ref}

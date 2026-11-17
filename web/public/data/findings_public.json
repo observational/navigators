@@ -79,7 +79,7 @@
         {
           "id": "broader",
           "headline": "They climb to the bigger subject.",
-          "line": "Models click through to the broader topic nearly twice as often as readers. The most-linked page on offer was never chosen: 0 times in 1,083.",
+          "line": "Models click through to the broader topic nearly twice as often as readers.",
           "viz": {
             "type": "ratio",
             "unit": "clicks that go to the broader topic",
@@ -239,6 +239,34 @@
                 "label": "fifteenth click",
                 "v": 0.0001,
                 "text": "1 in 10,000"
+              }
+            ]
+          }
+        },
+        {
+          "id": "importance",
+          "headline": "A random surfer drifts to the famous pages. They drift away.",
+          "line": "Clicking at random leads back to Wikipedia's most important pages. The models head for less important ones, and never took the most important link on a page: 0 times in 1,295.",
+          "viz": {
+            "type": "bars",
+            "unit": "importance after 15 clicks (1× = an average page)",
+            "rows": [
+              {
+                "label": "where they start",
+                "v": 14,
+                "text": "14×",
+                "who": "dim"
+              },
+              {
+                "label": "a random surfer",
+                "v": 16.3,
+                "text": "16×",
+                "who": "dim"
+              },
+              {
+                "label": "the models",
+                "v": 5.4,
+                "text": "5×"
               }
             ]
           }
