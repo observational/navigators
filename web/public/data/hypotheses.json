@@ -100,9 +100,10 @@
           "id": "H7",
           "short": "Stated and revealed preferences differ",
           "text": "Where an agent says it wants to go differs from where it actually goes.",
-          "status": "untestable",
-          "verdict": "Untested as a hypothesis; the probes give a descriptive answer.",
-          "evidence": "When the harness asks, in a side question that is never fed back, which page the agent would open next, the page it names matches the page it then opens 19% to 54% of the time by exact title. The analysis keeps H7 untested because the coders read the reason written with each pick, which cannot contradict the pick, and no semantic match was scored."
+          "status": "supported",
+          "verdict": "Supported: agents open the page they named a little more than half the time.",
+          "evidence": "Before showing the links, the harness asks which page the agent would open next; the answer is never fed back. When the named page is on the menu, the agent opens it 56% of the time [53%, 59%], against 2% for a random pick (1,304 steps; DeepSeek, Qwen, GLM and MiMo each land between 0.50 and 0.71). One wish in six names a page the article does not link to, and with a search box agents looked for such a page once in 66 chances. Named pages that were skipped are visited later in the same run 13% of the time, against 1% for a random skipped link. Stated and picked choices agree at 0.72 [0.62, 0.83] of what one shared preference would give.",
+          "test": "Exploratory, four open models, and the wish is asked without the link list. Next: ask it with the links visible, add repeat runs per start page, and rerun Gemini."
         },
         {
           "id": "H10",
@@ -365,8 +366,9 @@
       "Rerun the shared-context worlds on the current harness, with context shortening off.",
       "Repeat the persona, model-size and shared-context runs on closed models once access returns.",
       "A longer shared-context run from different start pages, and a capped-context run for stable points (about $3).",
-      "A page-view table for a fuller test of familiarity (H4)."
+      "A page-view table for a fuller test of familiarity (H4).",
+      "Stated and revealed preferences (H7): ask the wish with the links visible, and add closed models."
     ]
   },
-  "source": "Hypotheses from the project design document (H1–H13 and the two shared-context hypotheses), the hypothesis-testing plan of 15 October, the mental models of 9 November (MM0–MM5) and the shared-context plan of 10 November (CL1–CL7). Verdicts from the team’s claims register, result files and analysis pipeline as of 11 November 2026, with the main tests recomputed independently."
+  "source": "Hypotheses from the project design document (H1–H13 and the two shared-context hypotheses), the hypothesis-testing plan of 15 October, the mental models of 9 November (MM0–MM5) and the shared-context plan of 10 November (CL1–CL7). Verdicts from the team’s claims register, result files and analysis pipeline as of 11 November 2026, with the main tests recomputed independently; H7 from the intent-probe runs of 7 October to 19 November."
 }
