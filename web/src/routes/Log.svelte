@@ -41,7 +41,7 @@
 
 <section id="log" class="page" hidden={!active}>
   <div class="col">
-    <h1>Field log</h1>
+    <h1>In their words</h1>
     <p class="lede" id="loglede">{ready ? 'What the models wrote while choosing. The first ones wonder whether they are being tested.' : ''}</p>
     <div id="logfilters">
       {#each GROUPS as [g, lab]}

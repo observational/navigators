@@ -57,7 +57,7 @@ function up(src) {
 export function ground(key) { // key: 'all' | 'readers' | model key
   if (cache[key]) return cache[key];
   const w = S.wells; let d, mask = null, meta = {};
-  if (key === 'all') { d = w.agents.data; meta = { label: 'All agents', n_runs: w.agents.n_runs, n_visits: w.agents.n_visits }; }
+  if (key === 'all') { d = w.agents.data; meta = { label: 'All models', n_runs: w.agents.n_runs, n_visits: w.agents.n_visits }; }
   else if (key === 'readers') {
     d = w.readers.data; const mb = b64(w.readers.mask); mask = new Uint8Array(G0 * G0);
     for (let i = 0; i < mask.length; i++) mask[i] = (mb[i >> 3] >> (7 - (i & 7))) & 1;
@@ -104,9 +104,9 @@ export function contours(g, step = .025) { // marching squares on the upsampled 
 }
 
 /* ---------- selections ---------- */
-export const modelLabel = k => k === 'all' ? 'All agents' : k === 'readers' ? 'Readers' : S.mod[k].label;
+export const modelLabel = k => k === 'all' ? 'All models' : k === 'readers' ? 'Readers' : S.mod[k].label;
 export const famOf = k => S.mod[k]?.family || 'deepseek';
-export const shortName = k => ({ 'DeepSeek4.1': 'DeepSeek', 'Grok4.7': 'Grok', 'MiMo2.6': 'MiMo', 'Qwen3.8': 'Qwen 3.8', 'Qwen3.7': 'Qwen 3.7', 'Gemini3.8': 'Gemini', 'Haiku5.5': 'Haiku', 'Luna': 'Luna', all: 'All agents', readers: 'Readers' }[k]);
+export const shortName = k => ({ 'DeepSeek4.1': 'DeepSeek', 'Grok4.7': 'Grok', 'MiMo2.6': 'MiMo', 'Qwen3.8': 'Qwen 3.8', 'Qwen3.7': 'Qwen 3.7', 'Gemini3.8': 'Gemini', 'Haiku5.5': 'Haiku', 'Luna': 'Luna', all: 'All models', readers: 'Readers' }[k]);
 export function startInfo(pageId) { return S.fh.starts.find(s => s.page_id === pageId); }
 // the models a model's first picks match most and least often: [{ key, v }, { key, v }]
 export function kinOf(key) {

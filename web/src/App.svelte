@@ -7,16 +7,16 @@
   import Log from './routes/Log.svelte';
   import Findings from './routes/Findings.svelte';
   import Hypotheses from './routes/Hypotheses.svelte';
-  import Updates from './routes/Updates.svelte';
+  import Subscribe from './routes/Subscribe.svelte';
 
   const TABS = [
-    { id: 'landscape', label: 'Landscape', C: Landscape },
-    { id: 'topics', label: 'Topics', C: Topics },
-    { id: 'kin', label: 'Kin', C: Kin },
-    { id: 'log', label: 'Field log', C: Log },
+    { id: 'landscape', label: 'Map', C: Landscape },
+    { id: 'topics', label: 'Model vs reader', C: Topics },
+    { id: 'kin', label: 'Model vs model', C: Kin },
+    { id: 'log', label: 'In their words', C: Log },
     { id: 'findings', label: 'Findings', C: Findings },
     { id: 'hypotheses', label: 'Hypotheses', C: Hypotheses },
-    { id: 'updates', label: 'Updates', C: Updates },
+    { id: 'subscribe', label: 'Subscribe', C: Subscribe },
   ];
   const IDS = TABS.map(t => t.id);
   const read = () => { const h = location.hash.replace('#', ''); return IDS.includes(h) && h !== 'landscape' ? h : 'landscape'; };
@@ -35,7 +35,7 @@
 <svelte:window onhashchange={onhash} />
 
 <header>
-  <div class="mark"><span class="wm">Navigators</span><span class="sub">where AI models go when left alone, and where people go</span></div>
+  <div class="mark"><a class="wm" href="#landscape">Navigators</a><span class="sub">where AI models go when left alone, and where people go</span></div>
   <nav id="tabs">{#each TABS as t}<a href={'#' + t.id} class:on={current === t.id}>{t.label}</a>{/each}</nav>
 </header>
 

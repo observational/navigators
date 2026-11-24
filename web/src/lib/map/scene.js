@@ -332,7 +332,7 @@ function buildCallouts() {
   const add = (txt, sub, wx, wy, g) => { const d = document.createElement('div'); d.innerHTML = `${esc(txt)}<small>${esc(sub)}</small>`; labDiv.appendChild(d);
     const ln = document.createElementNS('http://www.w3.org/2000/svg', 'line'); leaders.appendChild(ln); const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', 3); leaders.appendChild(c);
     labs.push({ d, ln, c, wx, wy, g, w: Math.max(txt.length * 7.4, sub.length * 6.6) }); };
-  const unit = cur === 'readers' ? 'readers’ pile' : cur === 'all' ? 'agent visits' : `visits by ${SHORT[cur]}`;
+  const unit = cur === 'readers' ? 'readers’ pile' : cur === 'all' ? 'model visits' : `visits by ${SHORT[cur]}`;
   if (canonOn) canonPages().forEach(p => { const n = nodes[S.byId.get(p.id)]; add(n.t, `opened first in ${p.runs} of ${CN.runs} free searches`, n.x, n.y, 3); });
   else wellsOf(cur).forEach(b => add(b.page, `${b.topic} · ${cur === 'readers' ? unit : fmt(b.n) + ' ' + unit}`, b.x, b.y, 0));
   const s = nodes[S.byId.get(startId)]; add('start page', s.t, s.x, s.y, 2);
@@ -433,7 +433,7 @@ function pick() {
   if (best < 0) { tip.style.display = 'none'; return; }
   const n = nodes[best], mv = cur !== 'all' && cur !== 'readers' ? ` · ${S.visits[cur][best]} by ${SHORT[cur]}` : '';
   tip.style.display = 'block'; tip.style.left = Math.min(innerWidth - 330, mx + 14) + 'px'; tip.style.top = (my + 14) + 'px';
-  tip.innerHTML = `${esc(n.t)}<b>${fmt(n.A)} agent visits${mv} · ${fmt(n.H)} reader clicks into it</b>`;
+  tip.innerHTML = `${esc(n.t)}<b>${fmt(n.A)} model visits${mv} · ${fmt(n.H)} reader clicks into it</b>`;
 }
 
 /* ---------- controls ---------- */

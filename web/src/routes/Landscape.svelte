@@ -94,25 +94,25 @@
   <aside id="side">
     <h1>Left alone, different AIs make the same choices.</h1>
     {#if ready}
-    <p class="setup" id="setup">We gave eight AI models Wikipedia and no task. Each orange trail is one run on its own; blue is where human readers click.</p>
+    <p class="setup" id="setup">We gave eight AI models Wikipedia and no task. Each orange path is one run on its own; blue is where human readers click.</p>
     <!-- svelte-ignore a11y_no_noninteractive_element_interactions, a11y_click_events_have_key_events, a11y_no_noninteractive_tabindex -->
     <ol id="finds">{#each finds as h, i}<li tabindex="0" class:open={open[i]} onclick={e => { if (!e.target.closest('a')) toggleOpen(i); }} onkeydown={e => { if (e.key === 'Enter') toggleOpen(i); }}><span class="n" class:sm={h.n.length > 6}>{h.n}</span><span class="t">{h.t}</span><span class="x">{#if h.canon}{h.canon} <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions --><a class="act" onclick={e => { e.preventDefault(); toggleCanon(); }}>{canonOn ? 'Hide them' : 'Show them on the map'}</a>{:else}{h.x} <a href="#findings">See the findings</a>{/if}</span></li>{/each}</ol>
     <div class="ctls">
-      <div class="ctl wrap"><span class="k">ground</span><span id="grounds">{#each GKEYS as k}<!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions --><a class:rd={k === 'readers'} class:sp={S.wells.models[k]?.sparse} class:on={cur === k} onclick={() => setGround(k)}>{SHORT[k]}</a>{/each}</span></div>
+      <div class="ctl wrap"><span class="k">traffic</span><span id="grounds">{#each GKEYS as k}<!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions --><a class:rd={k === 'readers'} class:sp={S.wells.models[k]?.sparse} class:on={cur === k} onclick={() => setGround(k)}>{SHORT[k]}</a>{/each}</span></div>
       <p id="mnote">{@html modelNote(cur)}</p>
       <div class="ctl"><span class="k">start page</span><select id="start" aria-label="Start page" value={startId} bind:this={startEl}>{#each starts as [id, t]}<option value={id}>{t}</option>{/each}</select></div>
       <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-      <div class="ctl"><span class="k">view</span><a class:on={!plan} onclick={() => setView(false)}>landscape</a><a class:on={plan} onclick={() => setView(true)}>plan</a></div>
+      <div class="ctl"><span class="k">view</span><a class:on={!plan} onclick={() => setView(false)}>3D</a><a class:on={plan} onclick={() => setView(true)}>from above</a></div>
       <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-      <div class="ctl"><span class="k">roads</span><a class:on={lift === 0} onclick={() => setLift(0)}>on the ground</a><a class:on={lift === 1} onclick={() => setLift(1)}>lifted</a></div>
+      <div class="ctl"><span class="k">paths</span><a class:on={lift === 0} onclick={() => setLift(0)}>on the ground</a><a class:on={lift === 1} onclick={() => setLift(1)}>raised</a></div>
       <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-      <div class="ctl"><span class="k">ink</span><a class:on={ink === 0} onclick={() => setInk(0)}>who</a><a class:on={ink === 1} onclick={() => setInk(1)}>which model</a></div>
+      <div class="ctl"><span class="k">colour</span><a class:on={ink === 0} onclick={() => setInk(0)}>models or readers</a><a class:on={ink === 1} onclick={() => setInk(1)}>by model</a></div>
       <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-      <div class="ctl"><span class="k">regions</span><a class:on={!regOn} onclick={() => setReg(false)}>hidden</a><a class:on={regOn} onclick={() => setReg(true)}>named</a></div>
+      <div class="ctl"><span class="k">topics</span><a class:on={!regOn} onclick={() => setReg(false)}>unnamed</a><a class:on={regOn} onclick={() => setReg(true)}>named</a></div>
       <!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-      <div class="ctl"><span class="k">runs</span><a id="play" class="on" onclick={togglePlay}>{playing ? 'pause' : 'play'}</a><a id="overview" onclick={() => map?.overview()}>see the whole map</a></div>
+      <div class="ctl"><span class="k">runs</span><a id="play" class="on" onclick={togglePlay}>{playing ? 'pause' : 'play'}</a></div>
       <div id="key">{@html keyHtml(ink)}</div>
-      <p class="fine" id="fine">Low ground is where more runs passed. It records traffic; nothing pulls a run downhill. <a href="CREDITS.md">Credits</a></p>
+      <p class="fine" id="fine">Low ground is where more traffic passed. It records traffic; nothing pulls a run downhill. <a href="CREDITS.md">Credits</a></p>
     </div>
     {/if}
   </aside>
@@ -121,8 +121,8 @@
     <div id="voices" hidden={!voicesOpen}>{#if ready}{#if !item}<div class="h">no paired reasoning for this page</div>{:else}<div class="h"><span>{itemLabel} · step {item.step}</span><!-- svelte-ignore a11y_missing_attribute, a11y_click_events_have_key_events, a11y_no_static_element_interactions --><a id="vnext" onclick={() => vI++}>next {(vI % items.length) + 1} / {items.length}</a></div>
       <div class="v"><b>said</b><p>{item.said}</p></div><div class="v th"><b>thought</b><p>{item.thought}</p></div>{/if}{/if}</div>
   </div>
-  <div id="zoom" hidden={noGl}><button id="zin" aria-label="Zoom in" onclick={() => map?.dolly(.62)}>+</button><button id="zout" aria-label="Zoom out" onclick={() => map?.dolly(1.6)}>−</button></div>
+  <div id="zoom" hidden={noGl}><button id="zin" aria-label="Zoom in" onclick={() => map?.dolly(.62)}>+</button><button id="zout" aria-label="Zoom out" onclick={() => map?.dolly(1.6)}>−</button><button id="overview" aria-label="See the whole map" title="See the whole map" onclick={() => map?.overview()}>⤢</button></div>
   <div id="hint" hidden={noGl}>drag to turn · right-drag to move · scroll or pinch to zoom · double-click to go closer</div>
   <div id="tip" bind:this={tip}></div>
-  <div id="nogl" hidden={!noGl}><p>This view needs WebGL 2. <a href="#kin">Kin</a> and <a href="#topics">Topics</a> work without it.</p></div>
+  <div id="nogl" hidden={!noGl}><p>This view needs WebGL 2. <a href="#kin">Model vs model</a> and <a href="#topics">Model vs reader</a> work without it.</p></div>
 </section>

@@ -1,5 +1,5 @@
 import { S, MODELS } from '../data.js';
-export const SHORT = { 'DeepSeek4.1': 'DeepSeek', 'Grok4.7': 'Grok', 'MiMo2.6': 'MiMo', 'Qwen3.8': 'Qwen 3.8', 'Qwen3.7': 'Qwen 3.7', 'Gemini3.8': 'Gemini', 'Haiku5.5': 'Haiku', 'Luna': 'Luna', agents: 'all agents', readers: 'readers' };
+export const SHORT = { 'DeepSeek4.1': 'DeepSeek', 'Grok4.7': 'Grok', 'MiMo2.6': 'MiMo', 'Qwen3.8': 'Qwen 3.8', 'Qwen3.7': 'Qwen 3.7', 'Gemini3.8': 'Gemini', 'Haiku5.5': 'Haiku', 'Luna': 'Luna', agents: 'all models', readers: 'readers' };
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Edge-bundled topic circle, drawn on a canvas. Returns { setWho, setStart, resize, isActive, destroy }.
